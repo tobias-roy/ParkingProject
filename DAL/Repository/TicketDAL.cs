@@ -1,17 +1,54 @@
 using BLL;
+using Newtonsoft.Json;
 
 public class TicketDAL : ITicketDAL
 {
+  string ticketJSONPath = @"/Users/tobiasroy/Documents/Skole/H2/ParkingProject/DAL/Repository/ticketdatajson.json";
+  List<Ticket> Tickets = new();
+
+  public void CreateNewTicket(string licensePlate)
+  {
+    throw new NotImplementedException();
+  }
+  public Ticket GetTicketByID(int id)
+  {
+    Ticket emptyTicket = new();
+    if(File.Exists(ticketJSONPath)){
+      string json = File.ReadAllText(ticketJSONPath);
+      List<Ticket> tickets = JsonConvert.DeserializeObject<List<Ticket>>(json);
+      foreach (var ticket in tickets)
+      {
+        if(ticket.ID == id){
+          return ticket;
+        }
+      }
+      return emptyTicket;
+    } else {
+      return emptyTicket;
+    } 
+  }
+  public Ticket GetTicketByLotID(int lotID)
+  {
+    throw new NotImplementedException();
+  }
   public List<Ticket> GetAllTickets() 
   {
-    List<Ticket> TicketList = new();
-    TicketList.Add(new Ticket() { ID = 1, LotID = "A01", VehicleType = Vehicle.Type.Car, LicensePlate = "AB23432", ParkingStart = DateTime.UtcNow, Price = 37, OrderedWash = false });
-    TicketList.Add(new Ticket() { ID = 2, LotID = "A02", VehicleType = Vehicle.Type.Car, LicensePlate = "JD23574", ParkingStart = DateTime.UtcNow, Price = 37, OrderedWash = false });
-    TicketList.Add(new Ticket() { ID = 3, LotID = "A03", VehicleType = Vehicle.Type.Car, LicensePlate = "KL54789", ParkingStart = DateTime.UtcNow, Price = 37, OrderedWash = false });
-    TicketList.Add(new Ticket() { ID = 4, LotID = "A04", VehicleType = Vehicle.Type.Car, LicensePlate = "DL23561", ParkingStart = DateTime.UtcNow, Price = 37, OrderedWash = false });
-    TicketList.Add(new Ticket() { ID = 5, LotID = "A05", VehicleType = Vehicle.Type.Car, LicensePlate = "XV23123", ParkingStart = DateTime.UtcNow, Price = 37, OrderedWash = false });
-    TicketList.Add(new Ticket() { ID = 6, LotID = "A06", VehicleType = Vehicle.Type.Car, LicensePlate = "MB23651", ParkingStart = DateTime.UtcNow, Price = 37, OrderedWash = false });
-    TicketList.Add(new Ticket() { ID = 7, LotID = "A07", VehicleType = Vehicle.Type.Car, LicensePlate = "TJ12345", ParkingStart = DateTime.UtcNow, Price = 37, OrderedWash = false });
-    return TicketList;
+    if(File.Exists(ticketJSONPath)){
+      string json = File.ReadAllText(ticketJSONPath);
+      List<Ticket> tickets = JsonConvert.DeserializeObject<List<Ticket>>(json);
+      foreach (var item in tickets)
+      {
+        Tickets.Add(item);
+      }
+    }
+    return Tickets;
+  }
+  public Ticket DeleteTicketByID(int ID)
+  {
+    throw new NotImplementedException();
+  }
+  public Ticket DeleteTicketByLotID(int lotID)
+  {
+    throw new NotImplementedException();
   }
 }

@@ -1,0 +1,57 @@
+[
+  {
+    "ID": 1,
+    "LotID": "A01",
+    "VehicleType": "Car",
+    "LicensePlate": "AB23432",
+    "ParkingStart": "2023-01-30T08:30:19.000Z",
+    "Price": 37, 
+    "OrderedWash": false
+  },
+  {
+    "ID": 2,
+    "LotID": "A02",
+    "VehicleType": "Car",
+    "LicensePlate": "KU22332",
+    "ParkingStart": "2023-01-30T08:32:19.000Z",
+    "Price": 37, 
+    "OrderedWash": false
+  },
+  {
+    "ID": 3,
+    "LotID": "A03",
+    "VehicleType": "Car",
+    "LicensePlate": "TEST123",
+    "ParkingStart": "2023-01-30T08:34:19.000Z",
+    "Price": 37, 
+    "OrderedWash": false
+  },
+  {
+    "ID": 4,
+    "LotID": "A04",
+    "VehicleType": "Car",
+    "LicensePlate": "PIPA",
+    "ParkingStart": "2023-01-30T08:40:19.000Z",
+    "Price": 37, 
+    "OrderedWash": false
+  },
+  {
+    "ID": 5,
+    "LotID": "A05",
+    "VehicleType": "Car",
+    "LicensePlate": "KRONE1",
+    "ParkingStart": "2023-01-30T08:42:19.000Z",
+    "Price": 37, 
+    "OrderedWash": false
+  },
+  {
+    "ID": 6,
+    "LotID": "A06",
+    "VehicleType": "Car",
+    "LicensePlate": "AL23123",
+    "ParkingStart": "2023-01-30T08:49:19.000Z",
+    "Price": 37, 
+    "OrderedWash": false
+  }
+]
+

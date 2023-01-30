@@ -1,5 +1,3 @@
-using ST_Parking;
-
 namespace UI
 {
   ///<summary>
@@ -12,7 +10,8 @@ namespace UI
 
     public void Start () {
       Console.Clear();
-      Services.TicketController.WriteOutAllTickets();
+      //Todo Lot Overview
+      
       Console.ReadKey(); 
     }
   }

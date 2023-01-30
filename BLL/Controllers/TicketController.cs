@@ -11,8 +11,24 @@ namespace BLL.Controllers
             List<Ticket> tickets = _ticketRepository.GetAllTickets();
             foreach (var item in tickets)
             {
-                Console.WriteLine($"Ticket: {item}");
+                Console.WriteLine($"TicketID: {item.ID}, Licenseplate: {item.LicensePlate}");
             }
         }
+
+        // public void WriteOutTicketFromID(int id){
+        //     Ticket ticket = _ticketRepository.GetTicketByID(id);
+        //     Console.WriteLine($"TicketID: {ticket.ID}, {ticket.LicensePlate}, {ticket.LotID}");
+        // }
+
+    public void WriteOutTicketFromID()
+    {
+      throw new NotImplementedException();
     }
+
+    public void WriteOutTicketFromID(int id)
+    {
+      Ticket ticket = _ticketRepository.GetTicketByID(id);
+      Console.WriteLine(ticket.LicensePlate);
+    }
+  }
 }

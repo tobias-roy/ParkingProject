@@ -6,5 +6,6 @@ namespace BLL.Controllers
         ///Writes out a list of tickets
         ///</summary>
         void WriteOutAllTickets();
+        void WriteOutTicketFromID(int id);
     }
 }

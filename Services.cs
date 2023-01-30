@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using BLL;
 using BLL.Controllers;
 
-namespace ST_Parking
+namespace Service
 {
   public static class Services
     {

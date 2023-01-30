@@ -11,13 +11,39 @@ namespace BLL
    
     public List<Ticket> GetAllTickets()
     {
+      
       return _ticketData.GetAllTickets();
-    } 
+    }
 
-    //CreateNewTicket
+    public void CreateNewTicket(string licensePlate)
+    {
+      
+      throw new NotImplementedException();
+    }
 
-    //GetTicketByID
+    // public Ticket GetTicketByID(int id)
+    // {
+    //   return _ticketData.GetTicketByID(id);
+    // }
 
-    //DeleteTicketByID
+    public Ticket GetTicketByLotID(int lotID)
+    {
+      throw new NotImplementedException();
+    }
+
+    public Ticket DeleteTicketByID(int id)
+    {
+      throw new NotImplementedException();
+    }
+
+    public Ticket DeleteTicketByLotID(int lotID)
+    {
+      throw new NotImplementedException();
+    }
+
+    public Ticket GetTicketByID(int id)
+    {
+      return _ticketData.GetTicketByID(id);
+    }
   } 
 }
