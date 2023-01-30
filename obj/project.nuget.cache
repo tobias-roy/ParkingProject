@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "rWPfb6eS4JVAAHYuRPQUbJiN4BKs8hHmMyXXkxvjTuHH7r4P34eT9SmI6EcjpsKZvsKiTV7HgR/JF9EwJDLTnA==",
+  "dgSpecHash": "3oUeC9WQ4Ere2mlmKYZVNA4KCLNDT943TaJoccvElHTF27tyohzInP12m1GOhe7xwcFzEQ/MpfTFVER8lXL9nQ==",
   "success": true,
   "projectFilePath": "/Users/tobiasroy/Documents/Skole/H2/ParkingProject/ParkingProject.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/Users/tobiasroy/.nuget/packages/microsoft.extensions.dependencyinjection/7.0.0/microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512",
+    "/Users/tobiasroy/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/7.0.0/microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

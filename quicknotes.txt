@@ -1,0 +1,34 @@
+Requirements:
+ - Ticket with unique ID
+ - Ticket registers time of purchase
+ - Ticket calculates time being parked when a car leaves
+ - Ticket calculates price from time being parked
+
+ - Lot types:
+  1. Car
+  2. Car with trailer
+  3. Truck
+  4. Bus
+  Bus and trucks can use the same lots
+
+ - Optional carwash when purchasing a parking Ticket
+ - 2 Independent carwashes
+ - Wash types:
+  1. Economy (10 minutes)
+  2. Basic (15 minutes)
+  3. Premium (25 minutes)
+ - Display how long the queue is for either car wash
+ so you know how long it will take for your car to be "done"
+
+
+ - All payments are done when you leave the lot.
+
+
+Setup:
+GUI only shown on one machine to guests wanting to enter the lot.
+NO Database!
+
+Xunit test is a demand for atleast 1 !
+
+
+
