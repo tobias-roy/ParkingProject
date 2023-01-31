@@ -1,12 +1,24 @@
 {
   "version": 2,
-  "dgSpecHash": "s2AbFvb+EfwR4BDJ9dZpAXsMwiarRXLppm1jEQLSezpgFVnTP9vVZVrk2Nihgnm7qcGSkS8JgxSZXpclQeyfSQ==",
+  "dgSpecHash": "l4mRddKNvOECyk1SsE1UhVP1t4KwC2czg7dP8AVb0w2NMlIO5FcZLA76+ItNhyCxCzHIc1Tfu6fB75gyWobCEQ==",
   "success": true,
   "projectFilePath": "/Users/tobiasroy/Documents/Skole/H2/ParkingProject/ParkingProject.csproj",
   "expectedPackageFiles": [
+    "/Users/tobiasroy/.nuget/packages/dapper/2.0.123/dapper.2.0.123.nupkg.sha512",
+    "/Users/tobiasroy/.nuget/packages/microsoft.data.sqlite/7.0.2/microsoft.data.sqlite.7.0.2.nupkg.sha512",
+    "/Users/tobiasroy/.nuget/packages/microsoft.data.sqlite.core/7.0.2/microsoft.data.sqlite.core.7.0.2.nupkg.sha512",
+    "/Users/tobiasroy/.nuget/packages/microsoft.dotnet.platformabstractions/3.1.6/microsoft.dotnet.platformabstractions.3.1.6.nupkg.sha512",
     "/Users/tobiasroy/.nuget/packages/microsoft.extensions.dependencyinjection/7.0.0/microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512",
     "/Users/tobiasroy/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/7.0.0/microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512",
-    "/Users/tobiasroy/.nuget/packages/newtonsoft.json/13.0.2/newtonsoft.json.13.0.2.nupkg.sha512"
+    "/Users/tobiasroy/.nuget/packages/newtonsoft.json/13.0.2/newtonsoft.json.13.0.2.nupkg.sha512",
+    "/Users/tobiasroy/.nuget/packages/nstack.core/1.0.7/nstack.core.1.0.7.nupkg.sha512",
+    "/Users/tobiasroy/.nuget/packages/sqlitepclraw.bundle_e_sqlite3/2.1.2/sqlitepclraw.bundle_e_sqlite3.2.1.2.nupkg.sha512",
+    "/Users/tobiasroy/.nuget/packages/sqlitepclraw.core/2.1.2/sqlitepclraw.core.2.1.2.nupkg.sha512",
+    "/Users/tobiasroy/.nuget/packages/sqlitepclraw.lib.e_sqlite3/2.1.2/sqlitepclraw.lib.e_sqlite3.2.1.2.nupkg.sha512",
+    "/Users/tobiasroy/.nuget/packages/sqlitepclraw.provider.e_sqlite3/2.1.2/sqlitepclraw.provider.e_sqlite3.2.1.2.nupkg.sha512",
+    "/Users/tobiasroy/.nuget/packages/system.memory/4.5.3/system.memory.4.5.3.nupkg.sha512",
+    "/Users/tobiasroy/.nuget/packages/system.valuetuple/4.5.0/system.valuetuple.4.5.0.nupkg.sha512",
+    "/Users/tobiasroy/.nuget/packages/terminal.gui/1.9.0/terminal.gui.1.9.0.nupkg.sha512"
   ],
   "logs": []
 }

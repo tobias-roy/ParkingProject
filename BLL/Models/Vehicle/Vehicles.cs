@@ -2,7 +2,7 @@ namespace BLL {
   public class Vehicle
   {
     public enum Type {
-      Car,
+      Car = 1,
       CarWithTrailer,
       Truck,
       Bus

@@ -1,10 +1,12 @@
-using BLL;
 using Newtonsoft.Json;
+using BLL;
+using System.Data;
+using Microsoft.Data.Sqlite;
+using Dapper;
 
 public class TicketDAL : ITicketDAL
 {
   string ticketJSONPath = @"/Users/tobiasroy/Documents/Skole/H2/ParkingProject/DAL/Repository/ticketdatajson.json";
-  List<Ticket> Tickets = new();
 
   public void CreateNewTicket(string licensePlate)
   {
@@ -33,15 +35,13 @@ public class TicketDAL : ITicketDAL
   }
   public List<Ticket> GetAllTickets() 
   {
-    if(File.Exists(ticketJSONPath)){
-      string json = File.ReadAllText(ticketJSONPath);
-      List<Ticket> tickets = JsonConvert.DeserializeObject<List<Ticket>>(json);
-      foreach (var item in tickets)
-      {
-        Tickets.Add(item);
-      }
+    List<Ticket> Tickets = new();
+    using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
+    {
+      var output = connection.Query<Ticket>("SELECT * FROM Ticket", new DynamicParameters());
+      List<Ticket> dapperTickets = output.ToList();
+      return dapperTickets;
     }
-    return Tickets;
   }
   public Ticket DeleteTicketByID(int ID)
   {
@@ -50,5 +50,9 @@ public class TicketDAL : ITicketDAL
   public Ticket DeleteTicketByLotID(int lotID)
   {
     throw new NotImplementedException();
+  }
+
+  private static string GetConnectionString(){
+    return "Data Source = ./ParkingDB.db";
   }
 }
