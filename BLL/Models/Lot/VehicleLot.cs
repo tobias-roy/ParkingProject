@@ -1,6 +1,6 @@
 namespace BLL 
 {
-  class VehicleLot
+  public class VehicleLot
   {
     public string LotID { get; set; }
     public Status Status { get; set; }
@@ -11,7 +11,7 @@ namespace BLL
 //Future project reference needs a "reserved" option.
   public enum Status 
   {
-    Free,
+    Free = 1,
     Taken,
   }
 

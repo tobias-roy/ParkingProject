@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using DAL;
 using BLL;
 using BLL.Controllers;
 
@@ -24,9 +25,17 @@ namespace Service
                     var ticketDALRepository = sp.GetRequiredService<ITicketDAL>(); 
                     return new TicketRepository(ticketDALRepository);
                 })
+                .AddSingleton<ILotDAL, LotDAL>()
+                .AddSingleton<ILotRepository, LotRepository>(sp => 
+                {
+                    var lotDALRepository = sp.GetRequiredService<ILotDAL>(); 
+                    return new LotRepository(lotDALRepository);
+                })
                 .BuildServiceProvider();
             return serviceProvider;
         }
+
+        //Ticket controller
         private static ITicketController? _ticketController;
         public static ITicketController TicketController { 
             get 
@@ -36,6 +45,19 @@ namespace Service
 ;
                 }
                 return _ticketController;
+            }
+        }
+
+        //Lot controller
+        private static ILotController? _lotController;
+        public static ILotController LotController { 
+            get 
+            {
+                if(_lotController == null) {
+                    _lotController = new LotController(ServiceProvider.GetRequiredService<ILotRepository>());
+;
+                }
+                return _lotController;
             }
         }
     }

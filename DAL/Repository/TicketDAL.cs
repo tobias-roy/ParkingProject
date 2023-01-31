@@ -3,8 +3,13 @@ using System.Data;
 using Microsoft.Data.Sqlite;
 using Dapper;
 
+namespace DAL
+{
 public class TicketDAL : ITicketDAL
 {
+  private static string GetConnectionString(){
+    return "Data Source = ./ParkingDB.db";
+  }
   public void CreateTicket(int type)
   {
     Ticket createdTicket = new(){
@@ -13,9 +18,32 @@ public class TicketDAL : ITicketDAL
     //By using we lock the database from being written to but not read from until queries are done executing and the database is freed.
     using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
     {
-      connection.Execute($"INSERT INTO Ticket(VehicleType) VALUES('{type}')", new DynamicParameters());
-      var result = connection.ExecuteScalar("SELECT last_insert_rowid()");
-      createdTicket.ID = int.Parse(result.ToString());
+      switch ((int)type)
+      {
+        case 1:
+          string carLotId = connection.ExecuteScalar("SELECT LotID FROM VehicleLot WHERE Status = '0' AND LotID LIKE 'A%' LIMIT 1", new DynamicParameters()).ToString();
+          connection.Execute($"INSERT INTO Ticket(VehicleType, LotID) VALUES('{type}', '{carLotId}')", new DynamicParameters());
+          break;
+        
+        case 2:
+          string trailerLotId = connection.ExecuteScalar("SELECT LotID FROM VehicleLot WHERE Status = '0' AND LotID LIKE 'B%' LIMIT 1", new DynamicParameters()).ToString();
+          connection.Execute($"INSERT INTO Ticket(VehicleType, LotID) VALUES('{type}', '{trailerLotId}')", new DynamicParameters());
+          break;
+
+        case 3:
+          string busLotId = connection.ExecuteScalar("SELECT LotID FROM VehicleLot WHERE Status = '0' AND LotID LIKE 'C%' LIMIT 1", new DynamicParameters()).ToString();
+          connection.Execute($"INSERT INTO Ticket(VehicleType, LotID) VALUES('{type}', '{busLotId}')", new DynamicParameters());
+          break;
+
+        case 4:
+          string truckLotId = connection.ExecuteScalar("SELECT LotID FROM VehicleLot WHERE Status = '0' AND LotID LIKE 'D%' LIMIT 1", new DynamicParameters()).ToString();
+          connection.Execute($"INSERT INTO Ticket(VehicleType, LotID) VALUES('{type}', '{truckLotId}')", new DynamicParameters());
+          break;
+        default:
+          break;
+      }
+      string result = connection.ExecuteScalar("SELECT last_insert_rowid()").ToString();
+      createdTicket.ID = int.Parse(result);
     }
   }
   public Ticket GetTicketByID(int id)
@@ -63,9 +91,27 @@ public class TicketDAL : ITicketDAL
       return ticket;
     }
   }
-
-  private static string GetConnectionString(){
-    return "Data Source = ./ParkingDB.db";
+  public void UpdateTicket(int id, string column, string value)
+  {
+    using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
+    {
+      connection.Execute($"UPDATE Ticket SET {column} = {value} WHERE ID =" + $"{id}", new DynamicParameters());
+    }
   }
+  public void UpdateTicket(int id, string column, int value)
+  {
+    using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
+    {
+      connection.Execute($"UPDATE Ticket SET {column} = {value} WHERE ID =" + $"{id}", new DynamicParameters());
+    }
+  }
+  public void UpdateTicket(int id, string column, decimal value)
+  {
+    using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
+    {
+      connection.Execute($"UPDATE Ticket SET {column} = {value} WHERE ID =" + $"{id}", new DynamicParameters());
+    }
+  }
+}
 
 }

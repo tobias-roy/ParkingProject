@@ -1,0 +1,12 @@
+using BLL;
+
+namespace DAL
+{
+  public interface ILotDAL
+  {
+    List<VehicleLot> GetAllLots();
+    List<VehicleLot> GetAllLotsByType(Vehicle.Type type);
+    VehicleLot GetLotByID(int ID);
+    void UpdateLot(string id, string column, int value);
+  }
+}

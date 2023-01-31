@@ -1,3 +1,4 @@
+using DAL;
 namespace BLL
 {
   public class TicketRepository : ITicketRepository
@@ -37,6 +38,16 @@ namespace BLL
     public void CreateTicket(int type)
     {
       _ticketData.CreateTicket(type);
+    }
+
+    public void UpdateTicket(int id, string column, string value)
+    {
+      _ticketData.UpdateTicket(id, column, value);
+    }
+
+    public void UpdateTicket(int id, string column, int value)
+    {
+      _ticketData.UpdateTicket(id, column, value);
     }
   } 
 }

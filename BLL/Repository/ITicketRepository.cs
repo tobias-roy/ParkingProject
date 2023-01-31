@@ -22,5 +22,7 @@ namespace BLL
     //DeleteTicketByLotID
     Ticket DeleteTicketByLotID(int lotID);
 
+    void UpdateTicket(int id, string column, string value);
+    void UpdateTicket(int id, string column, int value);
   } 
 }
