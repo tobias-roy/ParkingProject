@@ -2,9 +2,7 @@ namespace BLL.Controllers
 {
     public interface ITicketController
     {
-        ///<summary>
-        ///Writes out a list of tickets
-        ///</summary>
+        void CreateTicket(int type);
         void WriteOutAllTickets();
         void WriteOutTicketFromID(int id);
     }

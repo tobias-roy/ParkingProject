@@ -1,4 +1,3 @@
-using Service;
 namespace UI
 {
   ///<summary>
@@ -10,7 +9,6 @@ namespace UI
     static int height = 60;
 
     public void Start () {
-      Services.TicketController.WriteOutAllTickets();
       Console.Clear();
       //Todo Lot Overview
       Console.WriteLine("Tryk ENTER for at registrere køretøj");
@@ -21,22 +19,14 @@ namespace UI
         switch (key.Key)
         {
           case ConsoleKey.Enter:
-            Flow();
+            VehicleSelectScreen VehicleSelectScreen = new();
+            VehicleSelectScreen.UI();
             enterPressed = !enterPressed;
             break;
           default:
             break;
         }
       }
-      Console.ReadKey(); 
-    }
-
-    public void Flow () {
-      VehicleSelectScreen VehicleSelectScreen = new();
-      VehicleSelectScreen.Show();
-      LicensePlateScreen LicensePlateScreen = new();
-      LicensePlateScreen.Show();
-
     }
   }
 }

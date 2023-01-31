@@ -4,8 +4,8 @@ namespace BLL {
     public enum Type {
       Car = 1,
       CarWithTrailer,
-      Truck,
-      Bus
+      Bus,
+      Truck
     }
   }
 }

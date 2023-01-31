@@ -17,7 +17,7 @@ namespace BLL
 
   public enum LotType
   {
-    CarLot,
+    CarLot = 1,
     TrailerLot,
     BusLot,
     TruckLot

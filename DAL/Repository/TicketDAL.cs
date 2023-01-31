@@ -1,4 +1,3 @@
-using Newtonsoft.Json;
 using BLL;
 using System.Data;
 using Microsoft.Data.Sqlite;
@@ -6,53 +5,67 @@ using Dapper;
 
 public class TicketDAL : ITicketDAL
 {
-  string ticketJSONPath = @"/Users/tobiasroy/Documents/Skole/H2/ParkingProject/DAL/Repository/ticketdatajson.json";
-
-  public void CreateNewTicket(string licensePlate)
+  public void CreateTicket(int type)
   {
-    throw new NotImplementedException();
+    Ticket createdTicket = new(){
+      VehicleType = (Vehicle.Type)type
+    };
+    //By using we lock the database from being written to but not read from until queries are done executing and the database is freed.
+    using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
+    {
+      connection.Execute($"INSERT INTO Ticket(VehicleType) VALUES('{type}')", new DynamicParameters());
+      var result = connection.ExecuteScalar("SELECT last_insert_rowid()");
+      createdTicket.ID = int.Parse(result.ToString());
+    }
   }
   public Ticket GetTicketByID(int id)
   {
-    Ticket emptyTicket = new();
-    if(File.Exists(ticketJSONPath)){
-      string json = File.ReadAllText(ticketJSONPath);
-      List<Ticket> tickets = JsonConvert.DeserializeObject<List<Ticket>>(json);
-      foreach (var ticket in tickets)
-      {
-        if(ticket.ID == id){
-          return ticket;
-        }
-      }
-      return emptyTicket;
-    } else {
-      return emptyTicket;
-    } 
+    using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
+    {
+      var output = connection.QuerySingle<Ticket>("SELECT * FROM Ticket WHERE ID =" + $"{id}", new DynamicParameters());
+      Ticket ticket = output;
+      return ticket;
+    }
   }
   public Ticket GetTicketByLotID(int lotID)
   {
-    throw new NotImplementedException();
+    using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
+    {
+      var output = connection.QuerySingle<Ticket>("SELECT * FROM Ticket WHERE LotID =" + $"{lotID}", new DynamicParameters());
+      Ticket ticket = output;
+      return ticket;
+    }
   }
   public List<Ticket> GetAllTickets() 
   {
-    List<Ticket> Tickets = new();
     using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
     {
       var output = connection.Query<Ticket>("SELECT * FROM Ticket", new DynamicParameters());
-      List<Ticket> dapperTickets = output.ToList();
-      return dapperTickets;
+      List<Ticket> Tickets = output.ToList();
+      return Tickets;
     }
   }
-  public Ticket DeleteTicketByID(int ID)
+  public Ticket DeleteTicketByID(int id)
   {
-    throw new NotImplementedException();
+    using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
+    {
+      var output = connection.QuerySingle<Ticket>("DELETE FROM Ticket WHERE ID =" + $"{id}", new DynamicParameters());
+      Ticket ticket = output;
+      return ticket;
+    }
   }
   public Ticket DeleteTicketByLotID(int lotID)
   {
-    throw new NotImplementedException();
+    using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
+    {
+      var output = connection.QuerySingle<Ticket>("DELETE FROM Ticket WHERE LotID =" + $"{lotID}", new DynamicParameters());
+      Ticket ticket = output;
+      return ticket;
+    }
   }
 
   private static string GetConnectionString(){
     return "Data Source = ./ParkingDB.db";
   }
+
 }

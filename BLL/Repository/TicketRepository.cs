@@ -11,20 +11,8 @@ namespace BLL
    
     public List<Ticket> GetAllTickets()
     {
-      
       return _ticketData.GetAllTickets();
     }
-
-    public void CreateNewTicket(string licensePlate)
-    {
-      
-      throw new NotImplementedException();
-    }
-
-    // public Ticket GetTicketByID(int id)
-    // {
-    //   return _ticketData.GetTicketByID(id);
-    // }
 
     public Ticket GetTicketByLotID(int lotID)
     {
@@ -44,6 +32,11 @@ namespace BLL
     public Ticket GetTicketByID(int id)
     {
       return _ticketData.GetTicketByID(id);
+    }
+
+    public void CreateTicket(int type)
+    {
+      _ticketData.CreateTicket(type);
     }
   } 
 }

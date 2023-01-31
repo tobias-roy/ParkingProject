@@ -3,7 +3,7 @@ public interface ITicketDAL
 {
   List<Ticket> GetAllTickets();
 
-  void CreateNewTicket(string licensePlate);
+  void CreateTicket(int type);
   Ticket GetTicketByID(int ID);
   Ticket GetTicketByLotID(int lotID);
   Ticket DeleteTicketByID(int ID);

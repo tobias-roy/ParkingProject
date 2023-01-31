@@ -7,6 +7,11 @@ namespace BLL.Controllers
         public TicketController (ITicketRepository ticketRepository) {
             _ticketRepository = ticketRepository;
         }
+        public void CreateTicket(int type){
+          _ticketRepository.CreateTicket(type);
+        }
+
+
         public void WriteOutAllTickets(){
             List<Ticket> tickets = _ticketRepository.GetAllTickets();
             foreach (var item in tickets)
@@ -14,11 +19,6 @@ namespace BLL.Controllers
                 Console.WriteLine($"TicketID: {item.ID}, Licenseplate: {item.LicensePlate}");
             }
         }
-
-        // public void WriteOutTicketFromID(int id){
-        //     Ticket ticket = _ticketRepository.GetTicketByID(id);
-        //     Console.WriteLine($"TicketID: {ticket.ID}, {ticket.LicensePlate}, {ticket.LotID}");
-        // }
 
     public void WriteOutTicketFromID()
     {

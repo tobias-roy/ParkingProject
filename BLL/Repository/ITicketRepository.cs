@@ -8,7 +8,7 @@ namespace BLL
     List<Ticket> GetAllTickets();
 
     //CreateNewTicket
-    void CreateNewTicket(string licensePlate);
+    void CreateTicket (int type);
 
     //GetTicketByID
     Ticket GetTicketByID(int id);

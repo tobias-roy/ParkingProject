@@ -1,6 +1,8 @@
 class LicensePlateScreen
 {
-  public void Show () {
+  public void UI () {
+    Console.Clear();
+    Console.WriteLine("UIUIUIUIUIU");
     Console.ReadKey();
   }
 }
