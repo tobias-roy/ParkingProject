@@ -1,8 +1,8 @@
+using Service;
 class LicensePlateScreen
 {
-  public void UI () {
+  public void Show () {
     Console.Clear();
-    Console.WriteLine("UIUIUIUIUIU");
-    Console.ReadKey();
+    Services.LicenseplateController.EnterLicenseplate();
   }
 }
