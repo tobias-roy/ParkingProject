@@ -1,3 +1,5 @@
+using Exceptions;
+using Service;
 namespace UI
 {
   ///<summary>
@@ -5,10 +7,9 @@ namespace UI
   ///</summary>
   class MainScreen
   {
-    static int width = 200;
-    static int height = 60;
-
     public void Start () {
+      try
+      {
       Console.Clear();
       //Todo Lot Overview
       Console.WriteLine("Tryk ENTER for at registrere køretøj");
@@ -19,13 +20,20 @@ namespace UI
         switch (key.Key)
         {
           case ConsoleKey.Enter:
-            VehicleSelectScreen VehicleSelectScreen = new();
-            VehicleSelectScreen.UI();
-            enterPressed = !enterPressed;
+            new VehicleSelectScreen().Show();
+            new LicensePlateScreen().Show();
+            new CarwashSelectScreen().Show();
+            new LotInfoScreen().Show();
             break;
           default:
             break;
         }
+      }
+      }
+      catch (ReturnToMainException){
+        Services.TicketController.CancelledTicketCreation();
+        Console.Clear();
+        Console.WriteLine("Handling annulleret");
       }
     }
   }
