@@ -32,3 +32,7 @@ Xunit test is a demand for atleast 1 !
 
 
 
+
+
+
+Handle SQL Microsoft.Data.Sqlite.SqliteException
