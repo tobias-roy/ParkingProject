@@ -1,8 +1,8 @@
 ﻿using UI;
 
-MainScreen main = new();
 while (true)
 {
-  main.Start();
+  Console.CursorVisible = false;
+  new MainScreen().Start();
   // Services.TicketController.WriteOutTicketFromID(1);
 }
