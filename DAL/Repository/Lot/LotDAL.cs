@@ -47,7 +47,7 @@ public class LotDAL : ILotDAL
     }
   }
 
-  public void UpdateLot(string id, string column, int value)
+  public void UpdateLot(int id, string column, int value)
   {
     using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
     {

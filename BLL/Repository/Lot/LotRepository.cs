@@ -26,7 +26,7 @@ namespace BLL
       return _lotData.GetLotByID(id);
     }
 
-    public void UpdateLot(string id, string column, int value)
+    public void UpdateLot(int id, string column, int value)
     {
       _lotData.UpdateLot(id, column, value);
     }

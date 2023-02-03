@@ -7,7 +7,7 @@ namespace DAL
     List<VehicleLot> GetAllLots();
     List<VehicleLot> GetAllLotsByType(Vehicle.Type type);
     VehicleLot GetLotByID(int ID);
-    void UpdateLot(string id, string column, int value);
+    void UpdateLot(int id, string column, int value);
     void ChangeLotStatus(int id, int value);
   }
 }
