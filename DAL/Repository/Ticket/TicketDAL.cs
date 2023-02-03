@@ -17,7 +17,7 @@ namespace DAL
       {
         var lotId = connection.ExecuteScalar($"SELECT LotID FROM VehicleLot WHERE Status = '0' AND LotType = '{type}' LIMIT 1", new DynamicParameters());
         connection.Execute($"UPDATE VehicleLot SET Status = 1 WHERE LotID = '{lotId}'");
-        connection.Execute($"INSERT INTO Ticket(VehicleType, LotID, Price) VALUES('{type}', '{lotId}', (SELECT Price FROM VehicleLot WHERE LotType = '{(int)type}'))", new DynamicParameters());
+        connection.Execute($"INSERT INTO Ticket(VehicleType, LotID, Price) VALUES('{type}', '{lotId}', (SELECT Price FROM VehicleLot WHERE LotType = '{type}'))", new DynamicParameters());
       }
     }
     public Ticket GetTicketByID(int id)
