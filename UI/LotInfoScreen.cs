@@ -3,6 +3,7 @@ class LotInfoScreen
 {
   public void Show () {
     Console.Clear();
-    Services.LotInfoController.ChangeLotStatus();
+    Services.TicketController.SetParkingTimeStart();
+    Services.LotInfoController.PrintLotAndTicketInfo();
   }
 }
