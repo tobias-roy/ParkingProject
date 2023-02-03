@@ -44,5 +44,10 @@ namespace BLL.Controllers
       int latestId = _ticketRepository.GetLatestID();
       _ticketRepository.DeleteTicketByID(latestId);
     }
+
+    public void SetParkingTimeStart(){
+      int id = _ticketRepository.GetLatestID();
+      _ticketRepository.UpdateTicket(id, "ParkingStart", DateTime.Now.ToString());
+    }
   }
 }
