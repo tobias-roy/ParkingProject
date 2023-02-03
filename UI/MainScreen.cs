@@ -10,13 +10,12 @@ namespace UI
     public void Start () {
       try
       {
-      Console.Clear();
-      //Todo Lot Overview
-      Console.WriteLine("Tryk ENTER for at registrere køretøj");
       bool enterPressed = false;
       while(!enterPressed)
       {
-       var key = Console.ReadKey();
+        Console.Clear();
+        Console.WriteLine("Tryk ENTER for at registrere køretøj");
+        var key = Console.ReadKey();
         switch (key.Key)
         {
           case ConsoleKey.Enter:
