@@ -8,6 +8,7 @@ namespace DAL
 
     void CreateTicket(int type);
     Ticket GetTicketByID(int ID);
+    Ticket GetTicketByLicenseplate(string licenseplate);
     Ticket GetTicketByLotID(int lotID);
     void DeleteTicketByID(int ID);
     void DeleteTicketByLotID(int lotID);

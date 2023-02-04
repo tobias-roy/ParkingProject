@@ -29,6 +29,15 @@ namespace DAL
         return ticket;
       }
     }
+    public Ticket GetTicketByLicenseplate(string licenseplate)
+    {
+      using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
+      {
+        var output = connection.QuerySingle<Ticket>($"SELECT * FROM Ticket WHERE LicensePlate = '{licenseplate}'", new DynamicParameters());
+        Ticket ticket = output;
+        return ticket;
+      }
+    }
     public Ticket GetTicketByLotID(int lotID)
     {
       using(IDbConnection connection = new SqliteConnection(GetConnectionString()))

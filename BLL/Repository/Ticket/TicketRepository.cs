@@ -35,6 +35,12 @@ namespace BLL
       return _ticketData.GetTicketByID(id);
     }
 
+    public Ticket GetTicketByLicenseplate(string licenseplate)
+    {
+      return _ticketData.GetTicketByLicenseplate(licenseplate);
+    }
+
+
     public void CreateTicket(int type)
     {
       _ticketData.CreateTicket(type);
@@ -47,6 +53,11 @@ namespace BLL
     }
 
     public void UpdateTicket(int id, string column, int value)
+    {
+      _ticketData.UpdateTicket(id, column, value);
+    }
+
+    public void UpdateTicket(int id, string column, decimal value)
     {
       _ticketData.UpdateTicket(id, column, value);
     }

@@ -13,6 +13,9 @@ namespace BLL
     //GetTicketByID
     Ticket GetTicketByID(int id);
 
+    Ticket GetTicketByLicenseplate(string licenseplate);
+
+
     //GetTicketByLotID
     Ticket GetTicketByLotID(int lotID);
 
@@ -24,6 +27,7 @@ namespace BLL
 
     void UpdateTicket(int id, string column, string value);
     void UpdateTicket(int id, string column, int value);
+    void UpdateTicket(int id, string column, decimal value);
     int GetLatestID();
     void CancelledTicketCreation();
   } 
