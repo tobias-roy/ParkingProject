@@ -21,25 +21,6 @@ namespace BLL.Controllers
       _ticketRepository.UpdateTicket(id, column, value);
     }
 
-    public void WriteOutAllTickets(){
-            List<Ticket> tickets = _ticketRepository.GetAllTickets();
-            foreach (var item in tickets)
-            {
-                Console.WriteLine($"TicketID: {item.ID}, Licenseplate: {item.LicensePlate}");
-            }
-        }
-
-    public void WriteOutTicketFromID()
-    {
-      throw new NotImplementedException();
-    }
-
-    public void WriteOutTicketFromID(int id)
-    {
-      Ticket ticket = _ticketRepository.GetTicketByID(id);
-      Console.WriteLine(ticket.LicensePlate);
-    }
-
     public void CancelledTicketCreation(){
       int latestId = _ticketRepository.GetLatestID();
       _ticketRepository.DeleteTicketByID(latestId);
