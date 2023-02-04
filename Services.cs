@@ -71,7 +71,7 @@ namespace Service
             get 
             {
                 if(_licenseplateController == null) {
-                    _licenseplateController = new LicenseplateController(ServiceProvider.GetRequiredService<ILicenseplateRepository>(), ServiceProvider.GetRequiredService<ITicketRepository>());
+                    _licenseplateController = new LicenseplateController(ServiceProvider.GetRequiredService<ILicenseplateRepository>(), ServiceProvider.GetRequiredService<ITicketRepository>(), ServiceProvider.GetRequiredService<ILotRepository>());
                 }
                 return _licenseplateController;
             }
