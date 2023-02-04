@@ -5,4 +5,8 @@ namespace Exceptions
     {
         public ReturnToMainException() {}
     }
+    class ReturnToMainExceptionNoDB : Exception
+    {
+        public ReturnToMainExceptionNoDB() {}
+    }
 }

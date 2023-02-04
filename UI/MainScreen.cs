@@ -15,6 +15,7 @@ namespace UI
       {
         Console.Clear();
         Console.WriteLine("Tryk ENTER for at registrere køretøj");
+        Console.WriteLine("Tryk ESC for at afslutte parkering");
         var key = Console.ReadKey();
         switch (key.Key)
         {
@@ -24,6 +25,9 @@ namespace UI
             new CarwashSelectScreen().Show();
             new LotInfoScreen().Show();
             break;
+          case ConsoleKey.Escape:
+            new EndParkingScreen().Show();
+            break;
           default:
             break;
         }
@@ -32,7 +36,13 @@ namespace UI
       catch (ReturnToMainException){
         Services.TicketController.CancelledTicketCreation();
         Console.Clear();
-        Console.WriteLine("Handling annulleret");
+        Console.WriteLine("Annulleret p-billet.");
+        Thread.Sleep(3000);
+      }
+      catch (ReturnToMainExceptionNoDB){
+        Console.Clear();
+        Console.WriteLine("Annulleret udtjekning.");
+        Thread.Sleep(3000);
       }
     }
   }
