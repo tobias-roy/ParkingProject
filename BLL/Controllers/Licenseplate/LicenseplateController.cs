@@ -8,10 +8,12 @@ namespace BLL.Controllers
   {
     private readonly ILicenseplateRepository _licenseplateRepository;
     private readonly ITicketRepository _ticketRepository;
-    public LicenseplateController (ILicenseplateRepository licenseplateRepository, ITicketRepository ticketRepository)
+    private readonly ILotRepository _lotRepository;
+    public LicenseplateController (ILicenseplateRepository licenseplateRepository, ITicketRepository ticketRepository, ILotRepository lotRepository)
     {
       _licenseplateRepository = licenseplateRepository;
       _ticketRepository = ticketRepository;
+      _lotRepository = lotRepository;
     }
 
     public void EnterLicenseplate()
@@ -20,6 +22,10 @@ namespace BLL.Controllers
       Console.Clear();
       Console.WriteLine("Indtast nummerplade og afslut med enter.");
       Console.WriteLine("Nummerplade:");
+      Console.SetCursorPosition(0, 6);
+      Console.WriteLine("Tryk ESC for at annullere.");
+      Console.SetCursorPosition(0, 2);
+
       bool validLicenseplate = false;
       while(!validLicenseplate && !cancelledLicenseplateInput)
       {
@@ -52,6 +58,46 @@ namespace BLL.Controllers
         } else {
           cancelledLicenseplateInput = !cancelledLicenseplateInput;
           throw new ReturnToMainException();
+        }
+      }
+    }
+
+    public void EndParkingEnterLicenseplate()
+    {
+      bool cancelledLicenseplateInput = false;
+      Console.Clear();
+      Console.WriteLine("Indtast nummerplade og afslut med enter.");
+      Console.WriteLine("Nummerplade:");
+      Console.SetCursorPosition(0, 6);
+      Console.WriteLine("Tryk ESC for at annullere.");
+      Console.SetCursorPosition(0, 2);
+
+      bool validLicenseplate = false;
+      while(!validLicenseplate && !cancelledLicenseplateInput)
+      {
+        Console.CursorVisible = true;
+        string licenseplateInput = readLineWithCancel();
+        if(licenseplateInput != null){
+          licenseplateInput = Regex.Replace(licenseplateInput, @"\s+", "");
+          if (!CheckLicenseplateDatabase(licenseplateInput))
+          {
+            LicenseplateCheckErrorPrompt(licenseplateInput, "er ikke registreret i systemet.");
+          }
+          else
+          {
+            validLicenseplate = !validLicenseplate;
+            Ticket ticket = _ticketRepository.GetTicketByLicenseplate(licenseplateInput);
+            DateTime parkingEnd = new DateTime();
+            _ticketRepository.UpdateTicket(ticket.ID, "ParkingEnd", parkingEnd.ToString());
+            DateTime parkingStart = Convert.ToDateTime(ticket.ParkingStart);
+            int hoursBetween = Convert.ToInt32((parkingStart - parkingEnd).TotalHours);
+            decimal fullPrice = hoursBetween * ticket.Price;
+            _ticketRepository.UpdateTicket(ticket.ID, "Price", fullPrice);
+            _lotRepository.UpdateLot(ticket.LotID, "Status", 0);
+          }
+        } else {
+          cancelledLicenseplateInput = !cancelledLicenseplateInput;
+          throw new ReturnToMainExceptionNoDB();
         }
       }
     }
