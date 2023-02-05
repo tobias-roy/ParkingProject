@@ -10,15 +10,41 @@ namespace DAL
       return "Data Source = ./ParkingDB.db";
     }
 
-    public List<Ticket> GetQueue()
+    public void DeleteWashed(int id)
     {
       using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
       {
-        var output = connection.Query<Ticket>("SELECT * FROM CarwashQueue", new DynamicParameters());
-        List<Ticket> Tickets = output.ToList();
-        return Tickets;
+        try{
+          connection.Execute("DELETE FROM CarwashQueue WHERE QueueID =" + $"{id}", new DynamicParameters());
+
+        } catch {
+          Console.WriteLine("FUUUUUUUUUUCK");
+        }
       }
     }
-    
+
+    public List<CarwashEntries> GetCarwashQueue()
+    {
+      List<CarwashEntries> entriesInQueue = new();
+      using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
+      {
+        try{
+          var output = connection.Query<CarwashEntries>("SELECT * FROM CarwashQueue", new DynamicParameters());
+          entriesInQueue = output.ToList();
+        } catch {
+          Console.WriteLine("FUUUUUUUUUUCK");
+          Console.ReadKey();
+        };
+        return entriesInQueue;
+      }
+    }
+
+    public void InsertToWashQueue(string licensePlate, int washtype, decimal price)
+    {
+      using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
+      {
+        connection.Execute($"INSERT INTO CarwashQueue(LicensePlate, Washtype, Price) VALUES('{licensePlate}', '{washtype}', '{price}')", new DynamicParameters());
+      }
+    }
   }
 }

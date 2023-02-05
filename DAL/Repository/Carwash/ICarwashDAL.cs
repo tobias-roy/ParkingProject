@@ -2,6 +2,10 @@ using BLL;
 namespace DAL
 {
   public interface ICarwashDAL{
-    List<Ticket> GetQueue();
+    List<CarwashEntries> GetCarwashQueue();
+    void DeleteWashed(int id);
+
+    void InsertToWashQueue(string licensePlate, int washtype, decimal price);
+
   }
 }

@@ -5,7 +5,7 @@ class CarwashSelectScreen
     Console.Clear();
     if(Services.CarwashController.CanChooseCarwash()){
       Console.Clear();
-      Console.WriteLine("Yeaaaaaahaw");
+      Services.CarwashController.Select();
     }
   }
 }

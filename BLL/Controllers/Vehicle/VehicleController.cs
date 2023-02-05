@@ -1,4 +1,5 @@
 using Service;
+using Exceptions;
 namespace BLL.Controllers
 {
   public class VehicleController : IVehicleController
@@ -11,7 +12,7 @@ namespace BLL.Controllers
 
     public void ChooseVehicle()
     {
-      Console.Clear();
+    Console.Clear();
     Console.WriteLine(@"Tryk 1 - 4 for at vælge køretøjstype:
     1 - Bil
     2 - Bil + Trailer
@@ -47,9 +48,8 @@ namespace BLL.Controllers
             break;
 
           case ConsoleKey.Escape:
-            
             optionChosen = !optionChosen;
-            break;
+            throw new ReturnToMainExceptionNoTicketCreation();
           default:
             break;
         }

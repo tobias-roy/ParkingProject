@@ -9,4 +9,9 @@ namespace Exceptions
     {
         public ReturnToMainExceptionNoDB() {}
     }
+
+    class ReturnToMainExceptionNoTicketCreation : Exception
+    {
+        public ReturnToMainExceptionNoTicketCreation() {}
+    }
 }

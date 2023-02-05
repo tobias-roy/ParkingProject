@@ -8,6 +8,7 @@ namespace UI
   class MainScreen
   {
     public void Start () {
+      Services.CarwashController.RunningCarwash();
       try
       {
       bool enterPressed = false;
@@ -42,6 +43,11 @@ namespace UI
       catch (ReturnToMainExceptionNoDB){
         Console.Clear();
         Console.WriteLine("Annulleret udtjekning.");
+        Thread.Sleep(3000);
+      }
+      catch (ReturnToMainExceptionNoTicketCreation){
+        Console.Clear();
+        Console.WriteLine("Annulleret oprettelse.");
         Thread.Sleep(3000);
       }
     }
