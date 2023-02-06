@@ -7,14 +7,16 @@ namespace BLL.Controllers
 {
   public class LicenseplateController : ILicenseplateController
   {
+    private readonly ICarwashRepository _carwashRepository;
     private readonly ILicenseplateRepository _licenseplateRepository;
     private readonly ITicketRepository _ticketRepository;
     private readonly ILotRepository _lotRepository;
-    public LicenseplateController (ILicenseplateRepository licenseplateRepository, ITicketRepository ticketRepository, ILotRepository lotRepository)
+    public LicenseplateController (ICarwashRepository carwashRepository, ILicenseplateRepository licenseplateRepository, ITicketRepository ticketRepository, ILotRepository lotRepository)
     {
       _licenseplateRepository = licenseplateRepository;
       _ticketRepository = ticketRepository;
       _lotRepository = lotRepository;
+      _carwashRepository = carwashRepository;
     }
 
     public void EnterLicenseplate()
@@ -32,6 +34,7 @@ namespace BLL.Controllers
       {
         Console.CursorVisible = true;
         string licenseplateInput = readLineWithCancel();
+        licenseplateInput = licenseplateInput.ToUpper();
         if(licenseplateInput != null){
           licenseplateInput = Regex.Replace(licenseplateInput, @"\s+", "");
           if (licenseplateInput.Length > 7)
@@ -77,6 +80,7 @@ namespace BLL.Controllers
       {
         Console.CursorVisible = true;
         string licenseplateInput = readLineWithCancel();
+        licenseplateInput = licenseplateInput.ToUpper();
         if(licenseplateInput != null){
           licenseplateInput = Regex.Replace(licenseplateInput, @"\s+", "");
           if (!CheckLicenseplateDatabase(licenseplateInput))
@@ -88,12 +92,39 @@ namespace BLL.Controllers
             validLicenseplate = !validLicenseplate;
             Ticket ticket = _ticketRepository.GetTicketByLicenseplate(licenseplateInput);
             DateTime parkingEnd = new DateTime();
+            parkingEnd = DateTime.Now;
             _ticketRepository.UpdateTicket(ticket.ID, "ParkingEnd", parkingEnd.ToString());
             DateTime parkingStart = Convert.ToDateTime(ticket.ParkingStart);
-            int hoursBetween = Convert.ToInt32((parkingStart - parkingEnd).TotalHours);
+            int hoursBetween = Convert.ToInt32((parkingStart - parkingEnd).TotalHours) + 1;
             decimal fullPrice = hoursBetween * ticket.Price;
+            if(ticket.OrderedWash > 0)
+            {
+              switch (ticket.OrderedWash)
+              {
+                //Economy
+                case 1:
+                fullPrice += 50m;
+                break;
+                //Basis
+                case 2:
+                fullPrice += 75m;
+                break;
+                //Premium
+                case 3:
+                fullPrice += 100m;
+                break;
+                default:
+                break;
+              }              
+            }
             _ticketRepository.UpdateTicket(ticket.ID, "Price", fullPrice);
             _lotRepository.UpdateLot(ticket.LotID, "Status", 0);
+            Console.Clear();
+            Console.WriteLine("Tak fordi du parkerede hos os.");
+            Console.WriteLine($"Din fulde pris til betaling er: {fullPrice}");
+            Console.WriteLine("Vi sender regningen til din addresse.");
+            Console.WriteLine("God dag.");
+            Thread.Sleep(8000);
           }
         } else {
           cancelledLicenseplateInput = !cancelledLicenseplateInput;

@@ -45,7 +45,7 @@ namespace DAL
     {
       using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
       {
-        var output = connection.QuerySingle<Ticket>($"SELECT * FROM Ticket WHERE LicensePlate = '{licenseplate}'", new DynamicParameters());
+        var output = connection.QuerySingle<Ticket>($"SELECT * FROM Ticket WHERE LicensePlate = '{licenseplate}' AND ParkingEnd IS NULL", new DynamicParameters());
         Ticket ticket = output;
         return ticket;
       }

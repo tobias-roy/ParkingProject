@@ -31,17 +31,17 @@ namespace Service
                     var lotDALRepository = sp.GetRequiredService<ILotDAL>(); 
                     return new LotRepository(lotDALRepository);
                 })
-                .AddSingleton<ILicenseplateDAL, LicenseplateDAL>()
-                .AddSingleton<ILicenseplateRepository, LicenseplateRepository>(sp => 
-                {
-                    var licenseplateDALRepository = sp.GetRequiredService<ILicenseplateDAL>(); 
-                    return new LicenseplateRepository(licenseplateDALRepository);
-                })
                 .AddSingleton<ICarwashDAL, CarwashDAL>()
                 .AddSingleton<ICarwashRepository, CarwashRepository>(sp => 
                 {
                     var carwashDALRepository = sp.GetRequiredService<ICarwashDAL>(); 
                     return new CarwashRepository(carwashDALRepository);
+                })
+                .AddSingleton<ILicenseplateDAL, LicenseplateDAL>()
+                .AddSingleton<ILicenseplateRepository, LicenseplateRepository>(sp => 
+                {
+                    var licenseplateDALRepository = sp.GetRequiredService<ILicenseplateDAL>(); 
+                    return new LicenseplateRepository(licenseplateDALRepository);
                 })
                 .AddSingleton<ILotInfoRepository, LotInfoRepository>(sp => 
                 {
@@ -71,7 +71,7 @@ namespace Service
             get 
             {
                 if(_licenseplateController == null) {
-                    _licenseplateController = new LicenseplateController(ServiceProvider.GetRequiredService<ILicenseplateRepository>(), ServiceProvider.GetRequiredService<ITicketRepository>(), ServiceProvider.GetRequiredService<ILotRepository>());
+                    _licenseplateController = new LicenseplateController(ServiceProvider.GetRequiredService<ICarwashRepository>(), ServiceProvider.GetRequiredService<ILicenseplateRepository>(), ServiceProvider.GetRequiredService<ITicketRepository>(), ServiceProvider.GetRequiredService<ILotRepository>());
                 }
                 return _licenseplateController;
             }
