@@ -1,5 +1,6 @@
 using Service;
 using Exceptions;
+using DAL;
 namespace BLL.Controllers
 {
   public class VehicleController : IVehicleController
@@ -12,6 +13,8 @@ namespace BLL.Controllers
 
     public void ChooseVehicle()
     {
+      Console.CursorVisible = false;
+    LatestID.latestId = 0;
     Console.Clear();
     Console.WriteLine(@"Tryk 1 - 4 for at vælge køretøjstype:
     1 - Bil
