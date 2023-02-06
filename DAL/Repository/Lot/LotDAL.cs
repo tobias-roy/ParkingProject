@@ -14,7 +14,7 @@ public class LotDAL : ILotDAL
   {
     using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
     {
-      var output = connection.QuerySingle<VehicleLot>("SELECT * FROM VehicleLot WHERE ID =" + $"{id}", new DynamicParameters());
+      var output = connection.QuerySingle<VehicleLot>("SELECT * FROM VehicleLot WHERE LotID =" + $"{id}", new DynamicParameters());
       VehicleLot vehicleLot = output;
       return vehicleLot;
     }
@@ -24,7 +24,7 @@ public class LotDAL : ILotDAL
   {
     using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
     {
-      connection.Execute($"UPDATE VehicleLot SET {column} = '{value}' WHERE ID =" + $"{lotId}", new DynamicParameters());
+      connection.Execute($"UPDATE VehicleLot SET {column} = '{value}' WHERE LotID =" + $"{lotId}", new DynamicParameters());
     }
   }
   public List<VehicleLot> GetAllLots()
@@ -51,7 +51,7 @@ public class LotDAL : ILotDAL
   {
     using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
     {
-      connection.Execute($"UPDATE VehicleLot SET {column} = {value} WHERE ID = " + $"{id}", new DynamicParameters());
+      connection.Execute($"UPDATE VehicleLot SET {column} = {value} WHERE LotID = " + $"{id}", new DynamicParameters());
     }
   }
 
@@ -59,7 +59,7 @@ public class LotDAL : ILotDAL
   {
     using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
     {
-      connection.Execute($"UPDATE VehicleLot SET 'Status' = {value} WHERE ID = " + $"{id}", new DynamicParameters());
+      connection.Execute($"UPDATE VehicleLot SET 'Status' = {value} WHERE LotID = " + $"{id}", new DynamicParameters());
     }
   }
   }
