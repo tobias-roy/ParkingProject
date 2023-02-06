@@ -53,7 +53,6 @@ namespace BLL.Controllers
           else
           {
             validLicenseplate = !validLicenseplate;
-            LatestID.latestId = _ticketRepository.GetLatestID();
             _ticketRepository.UpdateTicket(LatestID.latestId, "LicensePlate", licenseplateInput);
           }
         } else {

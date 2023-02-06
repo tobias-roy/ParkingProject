@@ -1,3 +1,4 @@
+using DAL;
 namespace BLL.Controllers
 {
   public class CancellationController : ICancellationController
@@ -13,10 +14,9 @@ namespace BLL.Controllers
     }
 
     public void CancelCreation(){
-      int latestId = _ticketRepository.GetLatestID();
-      Ticket latestTicket = _ticketRepository.GetTicketByID(latestId);
+      Ticket latestTicket = _ticketRepository.GetTicketByID(LatestID.latestId);
       _lotRepository.UpdateLot(latestTicket.LotID, "Status", 0);
-      _ticketRepository.DeleteTicketByID(latestId);
+      _ticketRepository.DeleteTicketByID(LatestID.latestId);
     }
   }
 }

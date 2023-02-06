@@ -10,6 +10,7 @@ namespace BLL.Controllers
     }
     public void CreateTicket(int type){
       _ticketRepository.CreateTicket(type);
+      LatestID.latestId = _ticketRepository.GetLatestID();
     }
 
     public void UpdateTicket(int id, string column, string value)
