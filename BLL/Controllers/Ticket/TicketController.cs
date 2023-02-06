@@ -1,3 +1,4 @@
+using DAL;
 namespace BLL.Controllers
 {
   public class TicketController : ITicketController
@@ -22,13 +23,11 @@ namespace BLL.Controllers
     }
 
     public void CancelledTicketCreation(){
-      int latestId = _ticketRepository.GetLatestID();
-      _ticketRepository.DeleteTicketByID(latestId);
+      _ticketRepository.DeleteTicketByID(LatestID.latestId);
     }
 
     public void SetParkingTimeStart(){
-      int id = _ticketRepository.GetLatestID();
-      _ticketRepository.UpdateTicket(id, "ParkingStart", DateTime.Now.ToString());
+      _ticketRepository.UpdateTicket(LatestID.latestId, "ParkingStart", DateTime.Now.ToString());
     }
   }
 }

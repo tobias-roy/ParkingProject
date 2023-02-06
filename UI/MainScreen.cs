@@ -8,6 +8,7 @@ namespace UI
   class MainScreen
   {
     public void Start () {
+      CurrentScreenType.type = ScreenType.Select;
       Services.CarwashController.RunningCarwash();
       try
       {
@@ -21,12 +22,17 @@ namespace UI
         switch (key.Key)
         {
           case ConsoleKey.Enter:
+            CurrentScreenType.type = ScreenType.Select;
             new VehicleSelectScreen().Show();
+            CurrentScreenType.type = ScreenType.Input;
             new LicensePlateScreen().Show();
+            CurrentScreenType.type = ScreenType.Select;
             new CarwashSelectScreen().Show();
+            CurrentScreenType.type = ScreenType.Select;
             new LotInfoScreen().Show();
             break;
           case ConsoleKey.Escape:
+            CurrentScreenType.type = ScreenType.Input;
             new EndParkingScreen().Show();
             break;
           default:

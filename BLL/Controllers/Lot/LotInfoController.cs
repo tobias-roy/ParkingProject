@@ -1,3 +1,4 @@
+using DAL;
 namespace BLL.Controllers
 {
   public class LotInfoController : ILotInfoController
@@ -14,8 +15,7 @@ namespace BLL.Controllers
 
     public void PrintLotAndTicketInfo()
     {
-      int id = _ticketRepository.GetLatestID();
-      Ticket yourTicket = _ticketRepository.GetTicketByID(id);
+      Ticket yourTicket = _ticketRepository.GetTicketByID(LatestID.latestId);
       DateTime parkingStart = Convert.ToDateTime(yourTicket.ParkingStart);
       Console.WriteLine($"Kør til plads {yourTicket.LotID}");
       Console.WriteLine($"Prisen i pr. påbegyndt time er {yourTicket.Price} kr.-");

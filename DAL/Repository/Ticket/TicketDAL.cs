@@ -22,12 +22,24 @@ namespace DAL
     }
     public Ticket GetTicketByID(int id)
     {
-      using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
+      Ticket empty = new();
+      int retrys = 0;
+      int tries = 5;
+      while (retrys <= tries)
       {
-        var output = connection.QuerySingle<Ticket>($"SELECT * FROM Ticket WHERE ID = '{id}'", new DynamicParameters());
-        Ticket ticket = output;
-        return ticket;
+        try{
+          using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
+          {
+            var output = connection.QuerySingle<Ticket>($"SELECT * FROM Ticket WHERE ID = '{id}'", new DynamicParameters());
+            Ticket ticket = output;
+            tries = 6;
+            return ticket;
+          }
+        } catch {
+          retrys++;
+        }
       }
+      return empty;
     }
     public Ticket GetTicketByLicenseplate(string licenseplate)
     {

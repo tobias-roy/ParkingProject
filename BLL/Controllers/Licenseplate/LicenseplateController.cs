@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using Exceptions;
+using DAL;
 
 namespace BLL.Controllers
 {
@@ -52,8 +53,8 @@ namespace BLL.Controllers
           else
           {
             validLicenseplate = !validLicenseplate;
-            int ticketId = _ticketRepository.GetLatestID();
-            _ticketRepository.UpdateTicket(ticketId, "LicensePlate", licenseplateInput);
+            LatestID.latestId = _ticketRepository.GetLatestID();
+            _ticketRepository.UpdateTicket(LatestID.latestId, "LicensePlate", licenseplateInput);
           }
         } else {
           cancelledLicenseplateInput = !cancelledLicenseplateInput;

@@ -1,4 +1,6 @@
 using Exceptions;
+using UI;
+using DAL;
 namespace BLL.Controllers
 {
   public class CarwashController : ICarwashController
@@ -12,8 +14,7 @@ namespace BLL.Controllers
     }
 
     public void Select(){
-      int id = _ticketRepository.GetLatestID();
-      Ticket latest = _ticketRepository.GetTicketByID(id);
+      Ticket latest = _ticketRepository.GetTicketByID(LatestID.latestId);
       Console.Clear();
       Console.WriteLine(@"Tryk 1 - 3 for at vælge vask:
       1 - Economy
@@ -30,12 +31,15 @@ namespace BLL.Controllers
           {
             case ConsoleKey.D1:
             _carwashRepository.InsertToWashQueue(latest.LicensePlate, 1, 50m);
+            optionChosen = !optionChosen;
             break;
             case ConsoleKey.D2:
             _carwashRepository.InsertToWashQueue(latest.LicensePlate, 2, 75m);
+            optionChosen = !optionChosen;
             break;
             case ConsoleKey.D3:
             _carwashRepository.InsertToWashQueue(latest.LicensePlate, 3, 100m);
+            optionChosen = !optionChosen;
             break;
             case ConsoleKey.Escape:
             throw new ReturnToMainException();
@@ -46,8 +50,7 @@ namespace BLL.Controllers
     }
 
     public bool CanChooseCarwash(){
-      int ticketId = _ticketRepository.GetLatestID();
-      Ticket latestTicket = _ticketRepository.GetTicketByID(ticketId);
+      Ticket latestTicket = _ticketRepository.GetTicketByID(LatestID.latestId);
       if((int)latestTicket.VehicleType == 1){
         return true;
       } else {
@@ -62,20 +65,24 @@ namespace BLL.Controllers
         List<CarwashEntries> queue = _carwashRepository.GetCarwashQueue();
         if(queue.Count == 0)
         {
-          Console.SetCursorPosition(0, 31);
-          Console.WriteLine("No cars in carwash.");
-          await Task.Delay(10000);
-        } else {
-          Console.SetCursorPosition(0, 19);
-          Console.Write($"Current queue is: {queue.Count}");
-          WashPrompt((Washtype)queue[0].Washtype);
-          await WashVehicle((Washtype)queue[0].Washtype);
-          try{
-            _carwashRepository.DeleteWashed(queue[0].QueueID);
-          } catch{
-            Console.WriteLine("Shitdontwork");
+          if(CurrentScreenType.type == ScreenType.Select){
+            Console.SetCursorPosition(0, 31);
+            Console.WriteLine("No cars in carwash.");
+            await Task.Delay(10000);
           }
-          await AwaitNextVehicle();
+        } else {
+            if(CurrentScreenType.type == ScreenType.Select){
+            Console.SetCursorPosition(0, 19);
+            Console.Write($"Current queue is: {queue.Count}");
+            WashPrompt((Washtype)queue[0].Washtype);
+            await WashVehicle((Washtype)queue[0].Washtype);
+            try{
+              _carwashRepository.DeleteWashed(queue[0].QueueID);
+            } catch{
+              Console.WriteLine("Shitdontwork");
+            }
+            await AwaitNextVehicle();
+          }
         }
       }
     }
