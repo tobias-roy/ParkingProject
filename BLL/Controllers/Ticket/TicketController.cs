@@ -9,9 +9,15 @@ namespace BLL.Controllers
         _ticketRepository = ticketRepository;
     }
     public void CreateTicket(int type){
-      _ticketRepository.CreateTicket(type);
-      LatestID.latestId = _ticketRepository.GetLatestID();
+      
+        Console.SetCursorPosition(0, 7);
+        Console.Write("Opretter billet, vent venligst..");
+        _ticketRepository.CreateTicket(type);
+        LatestID.latestId = _ticketRepository.GetLatestID();
+        Console.SetCursorPosition(0, 7);
+        Console.Write(new string(' ', Console.WindowWidth));
     }
+    
 
     public void UpdateTicket(int id, string column, string value)
     {

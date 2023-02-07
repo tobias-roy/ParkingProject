@@ -1,8 +1,9 @@
 using Service;
+using UI.Screen;
 class EndParkingScreen
 {
   public void Show (){
-    Console.Clear();
+    Text.ClearTop();
     Services.LicenseplateController.EndParkingEnterLicenseplate();
   }
 }

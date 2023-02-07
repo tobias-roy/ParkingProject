@@ -37,13 +37,25 @@ public class LotDAL : ILotDAL
     }
   }
 
-  public List<VehicleLot> GetAllLotsByType(Vehicle.Type type)
+  public List<VehicleLot> GetAllLotsByType(int type)
   {
-    using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
+    try{
+      using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
+      {
+        var output = connection.Query<VehicleLot>($"SELECT * FROM VehicleLot WHERE LotType = {type}", new DynamicParameters());
+        List<VehicleLot> vehicles = output.ToList();
+        return vehicles;
+      }
+    } catch (Exception)
     {
-      var output = connection.Query<VehicleLot>($"SELECT * FROM VehicleLo WHERE LotType = {(int)type}", new DynamicParameters());
-      List<VehicleLot> vehicles = output.ToList();
-      return vehicles;
+      Console.SetCursorPosition(0, Console.WindowHeight - 5);
+      Console.ForegroundColor = ConsoleColor.Red;
+      Console.WriteLine("Vi kunne ikke opnå forbindelse til databasen.");
+      Console.WriteLine("Prøv venligst igen senere, eller kontakt kundeservice.");
+      Console.ForegroundColor = ConsoleColor.White;
+      List<VehicleLot> empty = new();
+      Console.ReadKey();
+      return empty;
     }
   }
 

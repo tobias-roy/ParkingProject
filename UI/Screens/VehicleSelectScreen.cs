@@ -1,8 +1,10 @@
 using Service;
+using UI.Screen;
 class VehicleSelectScreen
 {
   public void Show (){
-    Console.Clear();
+    Text.ClearTop();
     Services.VehicleController.ChooseVehicle();
+    Services.CarwashController.DisplayQueue();
   }
 }

@@ -1,9 +1,11 @@
 using Service;
+using UI.Screen;
 class LotInfoScreen
 {
   public void Show () {
-    Console.Clear();
+    Text.ClearTop();
     Services.TicketController.SetParkingTimeStart();
     Services.LotInfoController.PrintLotAndTicketInfo();
+    Services.CarwashController.DisplayQueue();
   }
 }

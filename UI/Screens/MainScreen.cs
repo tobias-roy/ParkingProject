@@ -1,5 +1,7 @@
 using Exceptions;
 using Service;
+using UI.Screen;
+
 namespace UI
 {
   ///<summary>
@@ -8,31 +10,33 @@ namespace UI
   class MainScreen
   {
     public void Start () {
-      CurrentScreenType.type = ScreenType.Select;
+      Console.CursorVisible = false;
+      Screen.CurrentScreenType.type = Screen.Type.Select;
       Services.CarwashController.RunningCarwash();
       try
       {
       bool enterPressed = false;
       while(!enterPressed)
       {
-        Console.Clear();
+        Text.ClearTop();
         Console.WriteLine("Tryk ENTER for at registrere køretøj");
         Console.WriteLine("Tryk ESC for at afslutte parkering");
         var key = Console.ReadKey();
         switch (key.Key)
         {
           case ConsoleKey.Enter:
-            CurrentScreenType.type = ScreenType.Select;
+            Text.ClearExceptionMessage();
+            Screen.CurrentScreenType.type = Screen.Type.Select;
             new VehicleSelectScreen().Show();
-            CurrentScreenType.type = ScreenType.Input;
+            Screen.CurrentScreenType.type = Screen.Type.Input;
             new LicensePlateScreen().Show();
-            CurrentScreenType.type = ScreenType.Select;
+            Screen.CurrentScreenType.type = Screen.Type.Select;
             new CarwashSelectScreen().Show();
-            CurrentScreenType.type = ScreenType.Select;
+            Screen.CurrentScreenType.type = Screen.Type.Select;
             new LotInfoScreen().Show();
             break;
           case ConsoleKey.Escape:
-            CurrentScreenType.type = ScreenType.Input;
+            Screen.CurrentScreenType.type = Screen.Type.Input;
             new EndParkingScreen().Show();
             break;
           default:
@@ -42,19 +46,19 @@ namespace UI
       }
       catch (ReturnToMainException){
         Services.TicketController.CancelledTicketCreation();
-        Console.Clear();
+        Text.ClearTop();
         Console.WriteLine("Annulleret p-billet.");
-        Thread.Sleep(3000);
+        Thread.Sleep(1500);
       }
       catch (ReturnToMainExceptionNoDB){
-        Console.Clear();
-        Console.WriteLine("Annulleret udtjekning.");
-        Thread.Sleep(3000);
+        Text.ClearTop();
+        Console.WriteLine("Vender tilbage til startsiden..");
+        Thread.Sleep(2000);
       }
       catch (ReturnToMainExceptionNoTicketCreation){
-        Console.Clear();
+        Text.ClearTop();
         Console.WriteLine("Annulleret oprettelse.");
-        Thread.Sleep(3000);
+        Thread.Sleep(1500);
       }
     }
   }

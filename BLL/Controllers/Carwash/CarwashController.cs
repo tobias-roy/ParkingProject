@@ -1,5 +1,5 @@
 using Exceptions;
-using UI;
+using UI.Screen;
 using DAL;
 namespace BLL.Controllers
 {
@@ -15,30 +15,32 @@ namespace BLL.Controllers
 
     public void Select(){
       Ticket latest = _ticketRepository.GetTicketByID(LatestID.latestId);
-      Console.Clear();
+      Text.ClearTop();
       Console.WriteLine(@"Tryk 1 - 3 for at vælge vask:
       1 - Economy
       2 - Basis
       3 - Premium
       Tryk ESC for at ANNULLERE");
 
-      //NEVER DO THIS ____________________________
       bool optionChosen = false;
         while(!optionChosen)
         {
-        var key = Console.ReadKey();
+        var key = Console.ReadKey(true);
           switch (key.Key)
           {
             case ConsoleKey.D1:
-            _carwashRepository.InsertToWashQueue(latest.LicensePlate, 1, 50m);
-            optionChosen = !optionChosen;
-            break;
+              List<string> economyTimes = SetStartAndEndTime(30);
+              _carwashRepository.InsertToWashQueue(latest.LicensePlate, 1, 50m, economyTimes[0], economyTimes[1]);
+              optionChosen = !optionChosen;
+              break;
             case ConsoleKey.D2:
-            _carwashRepository.InsertToWashQueue(latest.LicensePlate, 2, 75m);
-            optionChosen = !optionChosen;
-            break;
+              List<string> basisTimes = SetStartAndEndTime(60);
+              _carwashRepository.InsertToWashQueue(latest.LicensePlate, 2, 75m, basisTimes[0], basisTimes[1]);
+              optionChosen = !optionChosen;
+              break;
             case ConsoleKey.D3:
-            _carwashRepository.InsertToWashQueue(latest.LicensePlate, 3, 100m);
+            List<string> premiumTimes = SetStartAndEndTime(90);
+            _carwashRepository.InsertToWashQueue(latest.LicensePlate, 3, 100m, premiumTimes[0], premiumTimes[1]);
             optionChosen = !optionChosen;
             break;
             case ConsoleKey.Escape:
@@ -65,56 +67,78 @@ namespace BLL.Controllers
         List<CarwashEntries> queue = _carwashRepository.GetCarwashQueue();
         if(queue.Count == 0)
         {
-          if(CurrentScreenType.type == ScreenType.Select){
-            Console.SetCursorPosition(0, 31);
-            Console.WriteLine("No cars in carwash.");
-            await Task.Delay(10000);
+          if(CurrentScreenType.type == UI.Screen.Type.Select){
+            Console.SetCursorPosition(0, 15);
+            Console.WriteLine("Vaskehallen er ledig.");
+            Console.WriteLine(new string (' ', Console.WindowWidth));
+            Console.WriteLine(new string (' ', Console.WindowWidth));
+            Console.WriteLine(new string (' ', Console.WindowWidth));
+            Console.WriteLine(new string (' ', Console.WindowWidth));
+            await Task.Delay(2000);
           }
         } else {
-            if(CurrentScreenType.type == ScreenType.Select){
-            Console.SetCursorPosition(0, 19);
-            Console.Write($"Current queue is: {queue.Count}");
+            DisplayQueue();
             WashPrompt((Washtype)queue[0].Washtype);
-            await WashVehicle((Washtype)queue[0].Washtype);
-            try{
-              _carwashRepository.DeleteWashed(queue[0].QueueID);
-            } catch{
-              Console.WriteLine("Shitdontwork");
-            }
-            await AwaitNextVehicle();
+            await WashVehicle();
           }
         }
       }
-    }
 
-    private void WashPrompt(Washtype washType){
-        Console.SetCursorPosition(0, 20);
-        Console.WriteLine(new string(' ', Console.WindowWidth));
-        Console.WriteLine($"{washType} wash in progress.");
-    }
-
-    private async Task WashVehicle(Washtype washType){
-      int economyWait = 10000;
-      int basisWait = 15000;
-      int premiumWait = 20000;
-      switch (washType)
-      {
-        case Washtype.Economy:
-          await Task.Delay(economyWait);
-          break;
-        case Washtype.Basis:
-          await Task.Delay(basisWait);
-          break;
-        case Washtype.Premium:
-          await Task.Delay(premiumWait);
-          break;
-        default:
-        break;
+    public void DisplayQueue(){
+      List<CarwashEntries> queue = _carwashRepository.GetCarwashQueue();
+      if(queue.Count > 0){
+        Console.SetCursorPosition(0, 15);
+        Console.Write(new string(' ', Console.WindowWidth));
+        Console.WriteLine($"Den nuværende kø er: {queue.Count}");
+        Console.WriteLine($"Vaskehallen er ledig igen {queue.Last().EndTime}");
+      } else {
+        Console.SetCursorPosition(0, 15);
+        Console.WriteLine("Vaskehallen er ledig.");
+        Console.WriteLine(new string (' ', Console.WindowWidth));
+        Console.WriteLine(new string (' ', Console.WindowWidth));
+        Console.WriteLine(new string (' ', Console.WindowWidth));
+        Console.WriteLine(new string (' ', Console.WindowWidth));
       }
     }
 
-    private async Task AwaitNextVehicle(){
-      await Task.Delay(2000);
+    private List<string> SetStartAndEndTime(int washInterval){
+      List<string> result = new();
+      List<CarwashEntries> queue = _carwashRepository.GetCarwashQueue();
+      if(queue.Count == 0){
+        DateTime start = DateTime.Now;
+        DateTime end = start.AddSeconds(washInterval);
+        result.Add(start.ToString());
+        result.Add(end.ToString());
+        return result;
+      } else {
+        CarwashEntries entry = queue.Last();
+        DateTime entryEndTime = Convert.ToDateTime(entry.EndTime);
+        DateTime start = entryEndTime.AddSeconds(2);
+        DateTime end = start.AddSeconds(washInterval);
+        result.Add(start.ToString());
+        result.Add(end.ToString());
+        return result;
+        }
+    }
+    
+    private void WashPrompt(Washtype washType){
+        Console.SetCursorPosition(0, 18);
+        Console.WriteLine(new string(' ', Console.WindowWidth));
+        Console.WriteLine($"{washType} vask igang.");
+    }
+
+    private Task WashVehicle()
+    {
+      List<CarwashEntries> queue = _carwashRepository.GetCarwashQueue();
+      if(queue.Count > 0)
+      {
+        DateTime end = Convert.ToDateTime(queue[0].EndTime);
+        while(DateTime.Now < end){
+          
+        }
+        _carwashRepository.DeleteWashed(queue[0].QueueID);
+      }
+      return Task.CompletedTask;
     }
   }
 }

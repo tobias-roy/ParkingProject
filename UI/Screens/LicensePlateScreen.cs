@@ -1,8 +1,10 @@
 using Service;
+using UI.Screen;
 class LicensePlateScreen
 {
   public void Show () {
-    Console.Clear();
+    Text.ClearTop();
     Services.LicenseplateController.EnterLicenseplate();
+    Console.CursorVisible = false;
   }
 }
