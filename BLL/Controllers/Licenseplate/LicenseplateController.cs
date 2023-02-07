@@ -61,7 +61,7 @@ namespace BLL.Controllers
           }
         } else {
           cancelledLicenseplateInput = !cancelledLicenseplateInput;
-          throw new ReturnToMainException();
+          throw new ReturnToMainExceptionDeleteCreated();
         }
       }
     }
@@ -129,7 +129,7 @@ namespace BLL.Controllers
           }
         } else {
           cancelledLicenseplateInput = !cancelledLicenseplateInput;
-          throw new ReturnToMainExceptionNoDB();
+          throw new ReturnToMainException();
         }
       }
     }

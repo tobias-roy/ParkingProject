@@ -45,7 +45,7 @@ namespace BLL.Controllers
             optionChosen = !optionChosen;
             break;
             case ConsoleKey.Escape:
-            throw new ReturnToMainException();
+            throw new ReturnToMainExceptionDeleteCreated();
             default:
             break;
           }

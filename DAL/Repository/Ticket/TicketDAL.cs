@@ -30,7 +30,7 @@ namespace DAL
         Console.WriteLine("Vi kunne ikke opnå forbindelse til databasen.");
         Console.WriteLine("Prøv venligst igen senere, eller kontakt kundeservice.");
         Console.ForegroundColor = ConsoleColor.White;
-        throw new ReturnToMainExceptionNoDB();
+        throw new ReturnToMainException();
       }
     }
     public Ticket GetTicketByID(int id)
