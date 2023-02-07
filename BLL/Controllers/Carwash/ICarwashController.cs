@@ -2,7 +2,17 @@ namespace BLL.Controllers
 {
   public interface ICarwashController
   {
+    ///<summary>
+    ///Checks to see if vehicle type is allowed in the carwash <br/>
+    ///<returns>True if vehicle is car <br/>
+    ///False if vehicle is any other</returns>
+    ///</summary>
     bool CanChooseCarwash();
+    
+    ///<summary>
+    ///Prints the selectable washes and makes it possible to choose one <br/>
+    ///Sets the start and end time for the wash in the database
+    ///</summary>
     void Select();
 
     ///<summary>
