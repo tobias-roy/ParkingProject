@@ -22,7 +22,6 @@ namespace BLL.Controllers
       3 - Premium
       Tryk ESC for at ANNULLERE");
 
-      //NEVER DO THIS ____________________________
       bool optionChosen = false;
         while(!optionChosen)
         {
@@ -30,15 +29,18 @@ namespace BLL.Controllers
           switch (key.Key)
           {
             case ConsoleKey.D1:
-            _carwashRepository.InsertToWashQueue(latest.LicensePlate, 1, 50m);
-            optionChosen = !optionChosen;
-            break;
+              List<string> economyTimes = SetStartAndEndTime(30);
+              _carwashRepository.InsertToWashQueue(latest.LicensePlate, 1, 50m, economyTimes[0], economyTimes[1]);
+              optionChosen = !optionChosen;
+              break;
             case ConsoleKey.D2:
-            _carwashRepository.InsertToWashQueue(latest.LicensePlate, 2, 75m);
-            optionChosen = !optionChosen;
-            break;
+              List<string> basisTimes = SetStartAndEndTime(60);
+              _carwashRepository.InsertToWashQueue(latest.LicensePlate, 2, 75m, basisTimes[0], basisTimes[1]);
+              optionChosen = !optionChosen;
+              break;
             case ConsoleKey.D3:
-            _carwashRepository.InsertToWashQueue(latest.LicensePlate, 3, 100m);
+            List<string> premiumTimes = SetStartAndEndTime(90);
+            _carwashRepository.InsertToWashQueue(latest.LicensePlate, 3, 100m, premiumTimes[0], premiumTimes[1]);
             optionChosen = !optionChosen;
             break;
             case ConsoleKey.Escape:
@@ -67,77 +69,76 @@ namespace BLL.Controllers
         {
           if(CurrentScreenType.type == UI.Screen.Type.Select){
             Console.SetCursorPosition(0, 15);
-            Console.WriteLine("Ingen biler i vaskehallen.");
+            Console.WriteLine("Vaskehallen er ledig.");
             Console.WriteLine(new string (' ', Console.WindowWidth));
             Console.WriteLine(new string (' ', Console.WindowWidth));
             Console.WriteLine(new string (' ', Console.WindowWidth));
             Console.WriteLine(new string (' ', Console.WindowWidth));
-            await Task.Delay(10000);
+            await Task.Delay(2000);
           }
         } else {
-            if(CurrentScreenType.type == UI.Screen.Type.Select){
-            Console.SetCursorPosition(0, 15);
-            Console.WriteLine($"Den nuværende kø er: {queue.Count}");
-            int ventetid = 0;
-            foreach (var vehicle in queue)
-            {
-              switch (vehicle.Washtype)
-              {
-                case Washtype.Economy:
-                  ventetid = ventetid + 10;
-                break;
-                case Washtype.Basis:
-                  ventetid = ventetid + 15;
-                break;
-                case Washtype.Premium:
-                  ventetid = ventetid + 20;
-                break;
-                default:
-                break;
-              }
-            }
-            Console.Write($"Ventetiden er lige nu: {ventetid} sekunder.");
+            DisplayQueue();
             WashPrompt((Washtype)queue[0].Washtype);
-            await WashVehicle((Washtype)queue[0].Washtype);
-            try{
-              _carwashRepository.DeleteWashed(queue[0].QueueID);
-            } catch{
-              Console.WriteLine("Something went wrong..");
-            }
-            await AwaitNextVehicle();
+            await WashVehicle();
           }
         }
       }
+
+    public void DisplayQueue(){
+      List<CarwashEntries> queue = _carwashRepository.GetCarwashQueue();
+      if(queue.Count > 0){
+        Console.SetCursorPosition(0, 15);
+        Console.Write(new string(' ', Console.WindowWidth));
+        Console.WriteLine($"Den nuværende kø er: {queue.Count}");
+        Console.WriteLine($"Vaskehallen er ledig igen {queue.Last().EndTime}");
+      } else {
+        Console.SetCursorPosition(0, 15);
+        Console.WriteLine("Vaskehallen er ledig.");
+        Console.WriteLine(new string (' ', Console.WindowWidth));
+        Console.WriteLine(new string (' ', Console.WindowWidth));
+        Console.WriteLine(new string (' ', Console.WindowWidth));
+        Console.WriteLine(new string (' ', Console.WindowWidth));
+      }
     }
 
+    private List<string> SetStartAndEndTime(int washInterval){
+      List<string> result = new();
+      List<CarwashEntries> queue = _carwashRepository.GetCarwashQueue();
+      if(queue.Count == 0){
+        DateTime start = DateTime.Now;
+        DateTime end = start.AddSeconds(washInterval);
+        result.Add(start.ToString());
+        result.Add(end.ToString());
+        return result;
+      } else {
+        CarwashEntries entry = queue.Last();
+        DateTime entryEndTime = Convert.ToDateTime(entry.EndTime);
+        DateTime start = entryEndTime.AddSeconds(2);
+        DateTime end = start.AddSeconds(washInterval);
+        result.Add(start.ToString());
+        result.Add(end.ToString());
+        return result;
+        }
+    }
+    
     private void WashPrompt(Washtype washType){
-        Console.SetCursorPosition(0, 17);
+        Console.SetCursorPosition(0, 18);
         Console.WriteLine(new string(' ', Console.WindowWidth));
         Console.WriteLine($"{washType} vask igang.");
     }
 
-    private async Task WashVehicle(Washtype washType){
-      int economyWait = 10000;
-      int basisWait = 15000;
-      int premiumWait = 20000;
-      switch (washType)
+    private Task WashVehicle()
+    {
+      List<CarwashEntries> queue = _carwashRepository.GetCarwashQueue();
+      if(queue.Count > 0)
       {
-        case Washtype.Economy:
-          await Task.Delay(economyWait);
-          break;
-        case Washtype.Basis:
-          await Task.Delay(basisWait);
-          break;
-        case Washtype.Premium:
-          await Task.Delay(premiumWait);
-          break;
-        default:
-        break;
+        DateTime end = Convert.ToDateTime(queue[0].EndTime);
+        while(DateTime.Now < end){
+          
+        }
+        _carwashRepository.DeleteWashed(queue[0].QueueID);
       }
-    }
-
-    private async Task AwaitNextVehicle(){
-      await Task.Delay(2000);
+      return Task.CompletedTask;
     }
   }
 }

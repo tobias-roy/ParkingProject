@@ -21,9 +21,9 @@ namespace BLL
       return _carwashData.GetCarwashQueue();
     }
 
-    public void InsertToWashQueue(string licensePlate, int washtype, decimal price)
+    public void InsertToWashQueue(string licensePlate, int washtype, decimal price, string startTime, string endTime)
     {
-      _carwashData.InsertToWashQueue(licensePlate, washtype, price);
+      _carwashData.InsertToWashQueue(licensePlate, washtype, price, startTime, endTime);
     }
   } 
 }

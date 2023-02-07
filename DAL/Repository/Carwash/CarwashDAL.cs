@@ -39,11 +39,11 @@ namespace DAL
       }
     }
 
-    public void InsertToWashQueue(string licensePlate, int washtype, decimal price)
+    public void InsertToWashQueue(string licensePlate, int washtype, decimal price, string startTime, string endTime)
     {
       using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
       {
-        connection.Execute($"INSERT INTO CarwashQueue(LicensePlate, Washtype, Price) VALUES('{licensePlate}', '{washtype}', '{price}')", new DynamicParameters());
+        connection.Execute($"INSERT INTO CarwashQueue(LicensePlate, Washtype, Price, StartTime, EndTime) VALUES('{licensePlate}', '{washtype}', '{price}', '{startTime}', '{endTime}')", new DynamicParameters());
       }
     }
   }

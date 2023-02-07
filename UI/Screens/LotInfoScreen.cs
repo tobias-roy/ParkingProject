@@ -6,5 +6,6 @@ class LotInfoScreen
     Text.ClearTop();
     Services.TicketController.SetParkingTimeStart();
     Services.LotInfoController.PrintLotAndTicketInfo();
+    Services.CarwashController.DisplayQueue();
   }
 }

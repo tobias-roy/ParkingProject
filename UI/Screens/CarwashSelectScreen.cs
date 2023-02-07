@@ -5,6 +5,7 @@ class CarwashSelectScreen
   public void Show () {
     if(Services.CarwashController.CanChooseCarwash()){
       Text.ClearTop();
+      Services.CarwashController.DisplayQueue();
       Services.CarwashController.Select();
     }
   }
