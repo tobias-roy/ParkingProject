@@ -90,7 +90,6 @@ namespace BLL.Controllers
           }
           else
           {
-            validLicenseplate = !validLicenseplate;
             Ticket ticket = _ticketRepository.GetTicketByLicenseplate(licenseplateInput);
             DateTime parkingEnd = new DateTime();
             parkingEnd = DateTime.Now;
@@ -98,28 +97,12 @@ namespace BLL.Controllers
             DateTime parkingStart = Convert.ToDateTime(ticket.ParkingStart);
             int hoursBetween = Convert.ToInt32((parkingStart - parkingEnd).TotalHours) + 1;
             decimal fullPrice = hoursBetween * ticket.Price;
-            if(ticket.OrderedWash > 0)
-            {
-              switch (ticket.OrderedWash)
-              {
-                //Economy
-                case 1:
-                fullPrice += 50m;
-                break;
-                //Basis
-                case 2:
-                fullPrice += 75m;
-                break;
-                //Premium
-                case 3:
-                fullPrice += 100m;
-                break;
-                default:
-                break;
-              }              
+            if(ticket.OrderedWash == 1){
+              fullPrice += ticket.WashPrice;
             }
             _ticketRepository.UpdateTicket(ticket.ID, "Price", fullPrice);
             _lotRepository.UpdateLot(ticket.LotID, "Status", 0);
+            validLicenseplate = !validLicenseplate;
             Text.ClearTop();
             Console.WriteLine("Tak fordi du parkerede hos os.");
             Console.WriteLine($"Din fulde pris til betaling er: {fullPrice}");

@@ -32,22 +32,28 @@ namespace BLL.Controllers
             case ConsoleKey.D1:
               List<string> economyTimes = SetStartAndEndTime(30, wash);
               _carwashRepository.InsertToWashQueue(wash, latest.LicensePlate, 1, 50m, economyTimes[0], economyTimes[1]);
+              _ticketRepository.UpdateTicket(latest.ID, "OrderedWash", 1);
+              _ticketRepository.UpdateTicket(latest.ID, "WashPrice", 50m);
               optionChosen = !optionChosen;
               break;
             case ConsoleKey.D2:
               List<string> basisTimes = SetStartAndEndTime(60, wash);
               _carwashRepository.InsertToWashQueue(wash, latest.LicensePlate, 2, 75m, basisTimes[0], basisTimes[1]);
+              _ticketRepository.UpdateTicket(latest.ID, "OrderedWash", 1);
+              _ticketRepository.UpdateTicket(latest.ID, "WashPrice", 75m);
               optionChosen = !optionChosen;
               break;
             case ConsoleKey.D3:
-            List<string> premiumTimes = SetStartAndEndTime(90, wash);
-            _carwashRepository.InsertToWashQueue(wash, latest.LicensePlate, 3, 100m, premiumTimes[0], premiumTimes[1]);
-            optionChosen = !optionChosen;
-            break;
+              List<string> premiumTimes = SetStartAndEndTime(90, wash);
+              _carwashRepository.InsertToWashQueue(wash, latest.LicensePlate, 3, 100m, premiumTimes[0], premiumTimes[1]);
+              _ticketRepository.UpdateTicket(latest.ID, "OrderedWash", 1);
+              _ticketRepository.UpdateTicket(latest.ID, "WashPrice", 100m);
+              optionChosen = !optionChosen;
+              break;
             case ConsoleKey.Escape:
-            throw new ReturnToMainExceptionDeleteCreated();
+              throw new ReturnToMainExceptionDeleteCreated();
             default:
-            break;
+              break;
           }
         }
     }
