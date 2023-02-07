@@ -26,6 +26,10 @@ Run the command  'dotnet run'
 #### Database Error
 If you encounter a database error make sure the connection path is pointing to the correct database file in the project.
 
+#### Adding another carwash
+If you wish to add another carwash it is as simple as naming it and initiating it with the controller.
+However you need to make sure you create another table in the database similair to the ones already present.
+
 
 ## FAQ
 
