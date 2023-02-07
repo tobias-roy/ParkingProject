@@ -11,19 +11,19 @@ namespace BLL
       _carwashData = carwashData;
     }
 
-    public void DeleteWashed(int id)
+    public void DeleteWashed(int id, string wash)
     {
-      _carwashData.DeleteWashed(id);
+      _carwashData.DeleteWashed(id, wash);
     }
 
-    public List<CarwashEntries> GetCarwashQueue()
+    public List<CarwashEntries> GetCarwashQueue(string wash)
     {
-      return _carwashData.GetCarwashQueue();
+      return _carwashData.GetCarwashQueue(wash);
     }
 
-    public void InsertToWashQueue(string licensePlate, int washtype, decimal price, string startTime, string endTime)
+    public void InsertToWashQueue(string wash, string licensePlate, int washtype, decimal price, string startTime, string endTime)
     {
-      _carwashData.InsertToWashQueue(licensePlate, washtype, price, startTime, endTime);
+      _carwashData.InsertToWashQueue(wash, licensePlate, washtype, price, startTime, endTime);
     }
   } 
 }

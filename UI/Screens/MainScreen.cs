@@ -1,7 +1,6 @@
 using Exceptions;
 using Service;
 using UI.Screen;
-
 namespace UI
 {
   ///<summary>
@@ -12,7 +11,8 @@ namespace UI
     public void Start () {
       Console.CursorVisible = false;
       Screen.CurrentScreenType.type = Screen.Type.Select;
-      Services.CarwashController.RunningCarwash();
+      Services.CarwashController.RunningCarwash("North");
+      Services.CarwashController.RunningCarwash("South");
       try
       {
       bool enterPressed = false;

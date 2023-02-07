@@ -25,7 +25,7 @@ namespace DAL
       } catch (Exception)
       {
         Text.ClearTop();
-        Console.SetCursorPosition(0, 12);
+        Console.SetCursorPosition(0, 10);
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine("Vi kunne ikke opnå forbindelse til databasen.");
         Console.WriteLine("Prøv venligst igen senere, eller kontakt kundeservice.");

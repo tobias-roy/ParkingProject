@@ -1,32 +1,25 @@
 ﻿<Properties StartupConfiguration="{4303CDF4-A3D3-4E44-BF54-CA51582026AA}|Default">
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.ParkingProject PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="DAL/Repository/TicketDAL.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Program.cs">
     <Files>
-      <File FileName="Program.cs" Line="6" Column="13" />
-      <File FileName="DAL/Repository/TicketDAL.cs" Line="48" Column="1" />
+      <File FileName="Program.cs" Line="1" Column="10" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="ParkingProject" expanded="True">
             <Node name="ParkingProject" expanded="True">
-              <Node name="Dependencies" expanded="True">
-                <Node name="PackageDependencies" expanded="True" />
-              </Node>
-              <Node name="DAL" expanded="True">
-                <Node name="Repository" expanded="True" />
-              </Node>
-              <Node name="UI" expanded="True" />
+              <Node name="Program.cs" selected="True" />
             </Node>
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.ParkingProject PreferredExecutionTarget="MonoDevelop.Default" />
 </Properties>
