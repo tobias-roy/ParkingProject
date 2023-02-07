@@ -5,7 +5,7 @@ namespace BLL.Controllers
         void CreateTicket(int type);
         void UpdateTicket(int id, string column, string value);
         void UpdateTicket(int id, string column, int value);
-        void CancelledTicketCreation();
+        void UndoTicketCreation();
         void SetParkingTimeStart();
     }
 }

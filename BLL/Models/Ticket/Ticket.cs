@@ -16,6 +16,7 @@ namespace BLL
     //Price for vehicle
     public decimal Price { get; set; }
     public int OrderedWash { get; set; }
+    public decimal WashPrice { get; set; }
 
     public void ParkedTime () {}
     public void FullPrice () {}

@@ -22,33 +22,50 @@ namespace BLL.Controllers
       3 - Premium
       Tryk ESC for at ANNULLERE");
 
-      bool optionChosen = false;
+        bool optionChosen = false;
         while(!optionChosen)
         {
-        var key = Console.ReadKey(true);
+          string wash = SmallestQueue();
+          var key = Console.ReadKey(true);
           switch (key.Key)
           {
             case ConsoleKey.D1:
-              List<string> economyTimes = SetStartAndEndTime(30);
-              _carwashRepository.InsertToWashQueue(latest.LicensePlate, 1, 50m, economyTimes[0], economyTimes[1]);
+              List<string> economyTimes = SetStartAndEndTime(30, wash);
+              _carwashRepository.InsertToWashQueue(wash, latest.LicensePlate, 1, 50m, economyTimes[0], economyTimes[1]);
+              _ticketRepository.UpdateTicket(latest.ID, "OrderedWash", 1);
+              _ticketRepository.UpdateTicket(latest.ID, "WashPrice", 50m);
               optionChosen = !optionChosen;
               break;
             case ConsoleKey.D2:
-              List<string> basisTimes = SetStartAndEndTime(60);
-              _carwashRepository.InsertToWashQueue(latest.LicensePlate, 2, 75m, basisTimes[0], basisTimes[1]);
+              List<string> basisTimes = SetStartAndEndTime(60, wash);
+              _carwashRepository.InsertToWashQueue(wash, latest.LicensePlate, 2, 75m, basisTimes[0], basisTimes[1]);
+              _ticketRepository.UpdateTicket(latest.ID, "OrderedWash", 1);
+              _ticketRepository.UpdateTicket(latest.ID, "WashPrice", 75m);
               optionChosen = !optionChosen;
               break;
             case ConsoleKey.D3:
-            List<string> premiumTimes = SetStartAndEndTime(90);
-            _carwashRepository.InsertToWashQueue(latest.LicensePlate, 3, 100m, premiumTimes[0], premiumTimes[1]);
-            optionChosen = !optionChosen;
-            break;
+              List<string> premiumTimes = SetStartAndEndTime(90, wash);
+              _carwashRepository.InsertToWashQueue(wash, latest.LicensePlate, 3, 100m, premiumTimes[0], premiumTimes[1]);
+              _ticketRepository.UpdateTicket(latest.ID, "OrderedWash", 1);
+              _ticketRepository.UpdateTicket(latest.ID, "WashPrice", 100m);
+              optionChosen = !optionChosen;
+              break;
             case ConsoleKey.Escape:
-            throw new ReturnToMainException();
+              throw new ReturnToMainExceptionDeleteCreated();
             default:
-            break;
+              break;
           }
         }
+    }
+
+    private string SmallestQueue () {
+      var north = _carwashRepository.GetCarwashQueue("North");
+      var south = _carwashRepository.GetCarwashQueue("South");
+      if(north.Count > south.Count) {
+        return "South";
+      } else {
+        return "North";
+      }
     }
 
     public bool CanChooseCarwash(){
@@ -59,51 +76,52 @@ namespace BLL.Controllers
         return false;
       }
     }
-
-    public async Task RunningCarwash () {
+    public async Task RunningCarwashAsync (string wash) {
       await Task.Delay(1000);
       while(true)
       {
-        List<CarwashEntries> queue = _carwashRepository.GetCarwashQueue();
-        if(queue.Count == 0)
+        List<CarwashEntries> queue = _carwashRepository.GetCarwashQueue(wash);
+        if(queue.Count == 0 && CurrentScreenType.type == UI.Screen.Type.Select)
         {
-          if(CurrentScreenType.type == UI.Screen.Type.Select){
-            Console.SetCursorPosition(0, 15);
-            Console.WriteLine("Vaskehallen er ledig.");
-            Console.WriteLine(new string (' ', Console.WindowWidth));
-            Console.WriteLine(new string (' ', Console.WindowWidth));
-            Console.WriteLine(new string (' ', Console.WindowWidth));
-            Console.WriteLine(new string (' ', Console.WindowWidth));
+          if(wash == "North"){
+            Console.SetCursorPosition(0, 14);
+            Console.Write(new string(' ', Console.WindowWidth));
+            Console.SetCursorPosition(0, 14);
+            Console.WriteLine($"Vaskehal {wash} er ledig.");
             await Task.Delay(2000);
+          } else {
+            Console.SetCursorPosition(0, 15);
+            Console.Write(new string(' ', Console.WindowWidth));
+            Console.SetCursorPosition(0, 15);
+            Console.WriteLine($"Vaskehal {wash} er ledig.");
           }
+          await Task.Delay(2000);
         } else {
-            DisplayQueue();
-            WashPrompt((Washtype)queue[0].Washtype);
-            await WashVehicle();
+            DisplayQueue(wash);
+            await WashVehicle(wash);
           }
         }
       }
 
-    public void DisplayQueue(){
-      List<CarwashEntries> queue = _carwashRepository.GetCarwashQueue();
-      if(queue.Count > 0){
-        Console.SetCursorPosition(0, 15);
-        Console.Write(new string(' ', Console.WindowWidth));
-        Console.WriteLine($"Den nuværende kø er: {queue.Count}");
-        Console.WriteLine($"Vaskehallen er ledig igen {queue.Last().EndTime}");
+    public void DisplayQueue(string wash){
+      int washId = 0;
+      if(wash == "North"){
+        washId = 0;
       } else {
-        Console.SetCursorPosition(0, 15);
-        Console.WriteLine("Vaskehallen er ledig.");
-        Console.WriteLine(new string (' ', Console.WindowWidth));
-        Console.WriteLine(new string (' ', Console.WindowWidth));
-        Console.WriteLine(new string (' ', Console.WindowWidth));
-        Console.WriteLine(new string (' ', Console.WindowWidth));
+        washId = 1;
+      }
+      List<CarwashEntries> queue = _carwashRepository.GetCarwashQueue(wash);
+      if(queue.Count > 0){
+        Console.SetCursorPosition(0, (14 + washId));
+        Console.Write(new string(' ', Console.WindowWidth));
+        Console.SetCursorPosition(0, (14 + washId));
+        Console.Write($"Den nuværende kø er: {queue.Count} - Vaskehal {wash} er ledig igen {queue.Last().EndTime}");
       }
     }
 
-    private List<string> SetStartAndEndTime(int washInterval){
+    private List<string> SetStartAndEndTime(int washInterval, string wash){
       List<string> result = new();
-      List<CarwashEntries> queue = _carwashRepository.GetCarwashQueue();
+      List<CarwashEntries> queue = _carwashRepository.GetCarwashQueue(wash);
       if(queue.Count == 0){
         DateTime start = DateTime.Now;
         DateTime end = start.AddSeconds(washInterval);
@@ -120,23 +138,15 @@ namespace BLL.Controllers
         return result;
         }
     }
-    
-    private void WashPrompt(Washtype washType){
-        Console.SetCursorPosition(0, 18);
-        Console.WriteLine(new string(' ', Console.WindowWidth));
-        Console.WriteLine($"{washType} vask igang.");
-    }
 
-    private Task WashVehicle()
+    private Task WashVehicle(string wash)
     {
-      List<CarwashEntries> queue = _carwashRepository.GetCarwashQueue();
+      List<CarwashEntries> queue = _carwashRepository.GetCarwashQueue(wash);
       if(queue.Count > 0)
       {
         DateTime end = Convert.ToDateTime(queue[0].EndTime);
-        while(DateTime.Now < end){
-          
-        }
-        _carwashRepository.DeleteWashed(queue[0].QueueID);
+        while(DateTime.Now < end){}
+        _carwashRepository.DeleteWashed(queue[0].QueueID, wash);
       }
       return Task.CompletedTask;
     }

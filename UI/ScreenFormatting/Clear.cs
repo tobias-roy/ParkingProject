@@ -15,8 +15,11 @@ namespace UI.Screen
             }
         }
 
+        ///<summary>
+        ///Clears the exception message thrown
+        ///</summary>
         public static void ClearExceptionMessage(){
-            Console.SetCursorPosition(0, 12);
+            Console.SetCursorPosition(0, 10);
             Console.WriteLine(new string(' ', Console.WindowWidth));
             Console.WriteLine(new string(' ', Console.WindowWidth));
             Console.WriteLine(new string(' ', Console.WindowWidth));

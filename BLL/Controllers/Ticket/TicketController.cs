@@ -29,7 +29,7 @@ namespace BLL.Controllers
       _ticketRepository.UpdateTicket(id, column, value);
     }
 
-    public void CancelledTicketCreation(){
+    public void UndoTicketCreation(){
       _ticketRepository.DeleteTicketByID(LatestID.latestId);
     }
 
