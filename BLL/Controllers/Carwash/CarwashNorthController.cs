@@ -70,7 +70,7 @@ namespace BLL.Controllers
         return false;
       }
     }
-    public async Task RunningCarwash (string wash) {
+    public async Task RunningCarwashAsync (string wash) {
       await Task.Delay(1000);
       while(true)
       {
@@ -139,9 +139,7 @@ namespace BLL.Controllers
       if(queue.Count > 0)
       {
         DateTime end = Convert.ToDateTime(queue[0].EndTime);
-        while(DateTime.Now < end){
-          
-        }
+        while(DateTime.Now < end){}
         _carwashRepository.DeleteWashed(queue[0].QueueID, wash);
       }
       return Task.CompletedTask;

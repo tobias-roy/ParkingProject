@@ -5,7 +5,7 @@ namespace BLL.Controllers
     bool CanChooseCarwash();
     void Select();
     // Task RunningCarwash(string washName, int washId);
-    Task RunningCarwash(string washName);
+    Task RunningCarwashAsync(string washName);
     void DisplayQueue(string wash);
   }
 }

@@ -11,8 +11,8 @@ namespace UI
     public void Start () {
       Console.CursorVisible = false;
       Screen.CurrentScreenType.type = Screen.Type.Select;
-      Services.CarwashController.RunningCarwash("North");
-      Services.CarwashController.RunningCarwash("South");
+      Services.CarwashController.RunningCarwashAsync("North");
+      Services.CarwashController.RunningCarwashAsync("South");
       try
       {
       bool enterPressed = false;
