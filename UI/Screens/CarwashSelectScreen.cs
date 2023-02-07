@@ -1,10 +1,10 @@
 using Service;
+using UI.Screen;
 class CarwashSelectScreen
 {
   public void Show () {
-    Console.Clear();
     if(Services.CarwashController.CanChooseCarwash()){
-      Console.Clear();
+      Text.ClearTop();
       Services.CarwashController.Select();
     }
   }

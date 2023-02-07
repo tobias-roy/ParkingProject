@@ -1,10 +1,10 @@
-namespace UI
+namespace UI.Screen
 {
     public static class CurrentScreenType{
-        public static ScreenType type;
+        public static Type type;
     }
 
-  public enum ScreenType
+  public enum Type
     {
         Select = 1,
         Input

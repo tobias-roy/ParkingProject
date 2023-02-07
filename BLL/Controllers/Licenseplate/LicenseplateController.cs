@@ -2,6 +2,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Exceptions;
 using DAL;
+using UI.Screen;
 
 namespace BLL.Controllers
 {
@@ -22,7 +23,7 @@ namespace BLL.Controllers
     public void EnterLicenseplate()
     {
       bool cancelledLicenseplateInput = false;
-      Console.Clear();
+      Text.ClearTop();
       Console.WriteLine("Indtast nummerplade og afslut med enter.");
       Console.WriteLine("Nummerplade:");
       Console.SetCursorPosition(0, 6);
@@ -68,7 +69,7 @@ namespace BLL.Controllers
     public void EndParkingEnterLicenseplate()
     {
       bool cancelledLicenseplateInput = false;
-      Console.Clear();
+      Text.ClearTop();
       Console.WriteLine("Indtast nummerplade og afslut med enter.");
       Console.WriteLine("Nummerplade:");
       Console.SetCursorPosition(0, 6);
@@ -119,7 +120,7 @@ namespace BLL.Controllers
             }
             _ticketRepository.UpdateTicket(ticket.ID, "Price", fullPrice);
             _lotRepository.UpdateLot(ticket.LotID, "Status", 0);
-            Console.Clear();
+            Text.ClearTop();
             Console.WriteLine("Tak fordi du parkerede hos os.");
             Console.WriteLine($"Din fulde pris til betaling er: {fullPrice}");
             Console.WriteLine("Vi sender regningen til din addresse.");
@@ -144,10 +145,23 @@ namespace BLL.Controllers
       ConsoleKeyInfo info = Console.ReadKey(true);
       while (info.Key != ConsoleKey.Enter && info.Key != ConsoleKey.Escape)
       {
-          Console.Write(info.KeyChar);
-          buffer.Append(info.KeyChar);
+        if (info.Key == ConsoleKey.Backspace){
+          Console.SetCursorPosition(Console.GetCursorPosition().Left - 1, Console.GetCursorPosition().Top);
+          Console.Write(new string(' ', 1));
+          Console.SetCursorPosition(Console.GetCursorPosition().Left - 1, Console.GetCursorPosition().Top);
+          buffer.Length = buffer.Length - 1;
           info = Console.ReadKey(true);
-      } 
+        } else {
+        Console.Write(info.KeyChar);
+        buffer.Append(info.KeyChar);
+        info = Console.ReadKey(true);
+        }
+      }
+
+      if (info.Key == ConsoleKey.Backspace)
+      {
+        buffer.Length--;
+      }
 
       if (info.Key == ConsoleKey.Enter)
       {

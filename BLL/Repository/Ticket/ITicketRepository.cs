@@ -29,6 +29,5 @@ namespace BLL
     void UpdateTicket(int id, string column, int value);
     void UpdateTicket(int id, string column, decimal value);
     int GetLatestID();
-    void CancelledTicketCreation();
   } 
 }

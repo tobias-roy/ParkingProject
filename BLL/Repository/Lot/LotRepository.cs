@@ -16,7 +16,7 @@ namespace BLL
       return _lotData.GetAllLots();
     }
 
-    public List<VehicleLot> GetAllLotsByType(Vehicle.Type type)
+    public List<VehicleLot> GetAllLotsByType(int type)
     {
       return _lotData.GetAllLotsByType(type);
     }

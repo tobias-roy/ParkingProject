@@ -14,4 +14,8 @@ namespace Exceptions
     {
         public ReturnToMainExceptionNoTicketCreation() {}
     }
+
+    class DatabaseUnreachableException : Exception{
+        public DatabaseUnreachableException(){}
+    }
 }

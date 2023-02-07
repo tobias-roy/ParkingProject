@@ -44,7 +44,6 @@ namespace BLL
     public void CreateTicket(int type)
     {
       _ticketData.CreateTicket(type);
-      
     }
 
     public void UpdateTicket(int id, string column, string value)
@@ -65,11 +64,6 @@ namespace BLL
     public int GetLatestID()
     {
       return _ticketData.GetLatestID();
-    }
-
-    public void CancelledTicketCreation()
-    {
-      
     }
   } 
 }

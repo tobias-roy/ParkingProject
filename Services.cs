@@ -115,7 +115,7 @@ namespace Service
             get 
             {
                 if(_vehicleController == null) {
-                    _vehicleController = new VehicleController(ServiceProvider.GetRequiredService<IVehicleRepository>());
+                    _vehicleController = new VehicleController(ServiceProvider.GetRequiredService<IVehicleRepository>(), ServiceProvider.GetRequiredService<ILotRepository>());
                 }
                 return _vehicleController;
             }

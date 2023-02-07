@@ -1,5 +1,5 @@
 using Exceptions;
-using UI;
+using UI.Screen;
 using DAL;
 namespace BLL.Controllers
 {
@@ -15,7 +15,7 @@ namespace BLL.Controllers
 
     public void Select(){
       Ticket latest = _ticketRepository.GetTicketByID(LatestID.latestId);
-      Console.Clear();
+      Text.ClearTop();
       Console.WriteLine(@"Tryk 1 - 3 for at vælge vask:
       1 - Economy
       2 - Basis
@@ -26,7 +26,7 @@ namespace BLL.Controllers
       bool optionChosen = false;
         while(!optionChosen)
         {
-        var key = Console.ReadKey();
+        var key = Console.ReadKey(true);
           switch (key.Key)
           {
             case ConsoleKey.D1:
@@ -65,21 +65,44 @@ namespace BLL.Controllers
         List<CarwashEntries> queue = _carwashRepository.GetCarwashQueue();
         if(queue.Count == 0)
         {
-          if(CurrentScreenType.type == ScreenType.Select){
-            Console.SetCursorPosition(0, 31);
-            Console.WriteLine("No cars in carwash.");
+          if(CurrentScreenType.type == UI.Screen.Type.Select){
+            Console.SetCursorPosition(0, 15);
+            Console.WriteLine("Ingen biler i vaskehallen.");
+            Console.WriteLine(new string (' ', Console.WindowWidth));
+            Console.WriteLine(new string (' ', Console.WindowWidth));
+            Console.WriteLine(new string (' ', Console.WindowWidth));
+            Console.WriteLine(new string (' ', Console.WindowWidth));
             await Task.Delay(10000);
           }
         } else {
-            if(CurrentScreenType.type == ScreenType.Select){
-            Console.SetCursorPosition(0, 19);
-            Console.Write($"Current queue is: {queue.Count}");
+            if(CurrentScreenType.type == UI.Screen.Type.Select){
+            Console.SetCursorPosition(0, 15);
+            Console.WriteLine($"Den nuværende kø er: {queue.Count}");
+            int ventetid = 0;
+            foreach (var vehicle in queue)
+            {
+              switch (vehicle.Washtype)
+              {
+                case Washtype.Economy:
+                  ventetid = ventetid + 10;
+                break;
+                case Washtype.Basis:
+                  ventetid = ventetid + 15;
+                break;
+                case Washtype.Premium:
+                  ventetid = ventetid + 20;
+                break;
+                default:
+                break;
+              }
+            }
+            Console.Write($"Ventetiden er lige nu: {ventetid} sekunder.");
             WashPrompt((Washtype)queue[0].Washtype);
             await WashVehicle((Washtype)queue[0].Washtype);
             try{
               _carwashRepository.DeleteWashed(queue[0].QueueID);
             } catch{
-              Console.WriteLine("Shitdontwork");
+              Console.WriteLine("Something went wrong..");
             }
             await AwaitNextVehicle();
           }
@@ -88,9 +111,9 @@ namespace BLL.Controllers
     }
 
     private void WashPrompt(Washtype washType){
-        Console.SetCursorPosition(0, 20);
+        Console.SetCursorPosition(0, 17);
         Console.WriteLine(new string(' ', Console.WindowWidth));
-        Console.WriteLine($"{washType} wash in progress.");
+        Console.WriteLine($"{washType} vask igang.");
     }
 
     private async Task WashVehicle(Washtype washType){

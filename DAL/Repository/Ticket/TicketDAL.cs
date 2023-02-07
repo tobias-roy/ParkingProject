@@ -2,6 +2,8 @@ using BLL;
 using System.Data;
 using Microsoft.Data.Sqlite;
 using Dapper;
+using Exceptions;
+using UI.Screen;
 
 namespace DAL
 {
@@ -13,11 +15,22 @@ namespace DAL
     public void CreateTicket(int type)
     {
       //By using we lock the database from being written to but not read from until queries are done executing and the database is freed.
-      using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
+      try{
+        using(IDbConnection connection = new SqliteConnection(GetConnectionString()))
+        {
+          var lotId = connection.ExecuteScalar($"SELECT LotID FROM VehicleLot WHERE Status = '0' AND LotType = '{type}' LIMIT 1", new DynamicParameters());
+          connection.Execute($"UPDATE VehicleLot SET Status = 1 WHERE LotID = '{lotId}'");
+          connection.Execute($"INSERT INTO Ticket(VehicleType, LotID, Price) VALUES('{type}', '{lotId}', (SELECT Price FROM VehicleLot WHERE LotType = '{type}'))", new DynamicParameters());
+        }
+      } catch (Exception)
       {
-        var lotId = connection.ExecuteScalar($"SELECT LotID FROM VehicleLot WHERE Status = '0' AND LotType = '{type}' LIMIT 1", new DynamicParameters());
-        connection.Execute($"UPDATE VehicleLot SET Status = 1 WHERE LotID = '{lotId}'");
-        connection.Execute($"INSERT INTO Ticket(VehicleType, LotID, Price) VALUES('{type}', '{lotId}', (SELECT Price FROM VehicleLot WHERE LotType = '{type}'))", new DynamicParameters());
+        Text.ClearTop();
+        Console.SetCursorPosition(0, 12);
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("Vi kunne ikke opnå forbindelse til databasen.");
+        Console.WriteLine("Prøv venligst igen senere, eller kontakt kundeservice.");
+        Console.ForegroundColor = ConsoleColor.White;
+        throw new ReturnToMainExceptionNoDB();
       }
     }
     public Ticket GetTicketByID(int id)
