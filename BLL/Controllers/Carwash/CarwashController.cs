@@ -76,32 +76,6 @@ namespace BLL.Controllers
         return false;
       }
     }
-    public async Task RunningCarwashAsync (string wash) {
-      await Task.Delay(1000);
-      while(true)
-      {
-        List<CarwashEntries> queue = _carwashRepository.GetCarwashQueue(wash);
-        if(queue.Count == 0 && CurrentScreenType.type == UI.Screen.Type.Select)
-        {
-          if(wash == "North"){
-            Console.SetCursorPosition(0, 14);
-            Console.Write(new string(' ', Console.WindowWidth));
-            Console.SetCursorPosition(0, 14);
-            Console.WriteLine($"Vaskehal {wash} er ledig.");
-            await Task.Delay(2000);
-          } else {
-            Console.SetCursorPosition(0, 15);
-            Console.Write(new string(' ', Console.WindowWidth));
-            Console.SetCursorPosition(0, 15);
-            Console.WriteLine($"Vaskehal {wash} er ledig.");
-          }
-          await Task.Delay(2000);
-        } else {
-            DisplayQueue(wash);
-            await WashVehicle(wash);
-          }
-        }
-      }
 
     public void DisplayQueue(string wash){
       int washId = 0;
@@ -137,6 +111,32 @@ namespace BLL.Controllers
         result.Add(end.ToString());
         return result;
         }
+    }
+    public async Task RunningCarwashAsync (string wash) {
+      await Task.Delay(1000);
+      while(true)
+      {
+        List<CarwashEntries> queue = _carwashRepository.GetCarwashQueue(wash);
+        if(queue.Count == 0 && CurrentScreenType.type == UI.Screen.Type.Select)
+        {
+          if(wash == "North") {
+            Console.SetCursorPosition(0, 14);
+            Console.Write(new string(' ', Console.WindowWidth));
+            Console.SetCursorPosition(0, 14);
+            Console.WriteLine($"Vaskehal {wash} er ledig.");
+            await Task.Delay(2000);
+          } else {
+            Console.SetCursorPosition(0, 15);
+            Console.Write(new string(' ', Console.WindowWidth));
+            Console.SetCursorPosition(0, 15);
+            Console.WriteLine($"Vaskehal {wash} er ledig.");
+          }
+          await Task.Delay(2000);
+        } else {
+          DisplayQueue(wash);
+          await WashVehicle(wash);
+        }
+      }
     }
 
     private Task WashVehicle(string wash)

@@ -10,8 +10,6 @@ namespace BLL
       _licenseplateData = licenseplateData;
     }
 
-
-
     public List<string> GetAllLicenseplates()
     {
       return _licenseplateData.GetAllLicenseplates();
